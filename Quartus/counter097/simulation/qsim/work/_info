@@ -1,0 +1,81 @@
+m255
+K3
+13
+cModel Technology
+Z0 dE:\Code\Quartus\counter097\simulation\qsim
+vcounter097
+Z1 !s100 HKaenPGnCDFC?O4`SQ8J83
+Z2 IgMWZc5F>ABf9Z5`N>[bb^3
+Z3 VzG8dUS5B6E[k2iF^iV6>l2
+Z4 dE:\Code\Quartus\counter097\simulation\qsim
+Z5 w1418904238
+Z6 8counter097.vo
+Z7 Fcounter097.vo
+L0 32
+Z8 OV;L;10.1e;51
+r1
+31
+Z9 !s90 -work|work|counter097.vo|
+Z10 o-work work -O0
+!i10b 1
+!s85 0
+Z11 !s108 1418904239.207000
+Z12 !s107 counter097.vo|
+!s101 -O0
+vcounter097_vlg_check_tst
+!i10b 1
+Z13 !s100 6n6RP[gDlJ_M:b2oTHWgF1
+Z14 Ifn4j4CblUmkFN4eOD4MCX1
+Z15 VL:KPjbo]N3I2_WzNjV4V`3
+R4
+Z16 w1418904236
+Z17 8Waveform.vwf.vt
+Z18 FWaveform.vwf.vt
+L0 62
+R8
+r1
+!s85 0
+31
+Z19 !s108 1418904239.504000
+Z20 !s107 Waveform.vwf.vt|
+Z21 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R10
+vcounter097_vlg_sample_tst
+!i10b 1
+Z22 !s100 R_lM=Je3S[njQ8e66h7;Z2
+Z23 IBSR:JU9=41XY?6GWe<Bz_1
+Z24 VD6QzYhZioSO4eJRB@99m:0
+R4
+R16
+R17
+R18
+L0 30
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10
+vcounter097_vlg_vec_tst
+!i10b 1
+Z25 !s100 ?Z>[DSQPEc[TP[>WnY^A[3
+Z26 Ii38CV6RmYa[<mlf=5KlQg0
+Z27 VfVa1g_YG1HPZI>lMoDiQR2
+R4
+R16
+R17
+R18
+Z28 L0 237
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10

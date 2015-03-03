@@ -1,0 +1,38 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: drawline - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\ihueiJ\AppData\Local\Temp\RSP774E.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/drawline.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Code\Vc\drawline\drawlineView.cpp"
+]
+Creating command line "cl.exe @C:\Users\ihueiJ\AppData\Local\Temp\RSP774E.tmp" 
+Creating temporary file "C:\Users\ihueiJ\AppData\Local\Temp\RSP774F.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/drawline.pdb" /debug /machine:I386 /out:"Debug/drawline.exe" /pdbtype:sept 
+.\Debug\drawline.obj
+.\Debug\drawlineDoc.obj
+.\Debug\drawlineView.obj
+.\Debug\line.obj
+.\Debug\MainFrm.obj
+.\Debug\StdAfx.obj
+.\Debug\drawline.res
+]
+Creating command line "link.exe @C:\Users\ihueiJ\AppData\Local\Temp\RSP774F.tmp"
+<h3>Output Window</h3>
+Compiling...
+drawlineView.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+drawline.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

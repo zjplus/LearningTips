@@ -1,0 +1,204 @@
+Microsoft (R) Macro Assembler Version 6.11		    12/16/13 21:01:02
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATA SEGMENT
+ 0000 07			CAR DB    7 ;字符图形表
+ 0001  52 0A 00 00		 DB  52H,10,0,0
+ 0005  B1 0A 00 01		 DB  0B1H,10,0,1
+ 0009  DB 0A 00 01		 DB  0DBH,10,0,1
+ 000D  DB 0A 00 01		 DB  0DBH,10,0,1
+ 0011  4F 07 01 00		 DB  4FH, 7,1,0
+ 0015  4F 07 00 FD		 DB  4FH, 7,0,-3
+ 0019  02 07 FE 01		 DB 2,7,-2,1
+ 001D 0000			CHAR_CNT DW  ?
+ 001F 0000			POINTER DW ?
+ 0021 00			LINE_ON DB  ?
+ 0022 00			COL_ON  DB ?
+ 0023				DATA ENDS
+ 0000				stack segment stack
+ 0000  0064 [			db 100 dup (?)
+        00
+       ]
+ 0064				stack ends
+
+ 0000				CODE SEGMENT 'code'
+				 ASSUME CS:CODE,DS:DATA
+ 0000				MAIN PROC FAR 
+ 0000  1E			PUSH  DS
+ 0001  2B C0			SUB AX,AX
+ 0003  50			PUSH AX
+ 0004  B8 ---- R		MOV AX,DATA ;初始化DS
+ 0007  8E D8			 MOV DS,AX
+ 0009  B4 00			 MOV AH,0 ;设置300×200彩色图形方式
+ 000B  B0 04			 MOV AL,4 
+ 000D  CD 10			 INT  10H
+ 000F  B4 0B			 MOV AH,0BH ;设置背景颜色
+ 0011  B7 00			 MOV BH,0 
+ 0013  B3 02			 MOV  BL,2
+ 0015  CD 10			 INT 10H
+ 0017  B4 0B			 MOV AH,0BH ;设置彩色调板
+ 0019  B7 01			 MOV BH,01 
+ 001B  B3 00			 MOV  BL,00
+ 001D  CD 10			 INT 10H
+				 ;CALL CLEAR_SCREEN ;清屏
+ 001F  8D 3E 0000 R		    LEA DI,CAR ;DI指向字符图形表
+ 0023  B6 01			 MOV DH,1 ;从第5行5列位置开始
+ 0025  B2 01			 MOV DL,1 ;显示汽车
+ 0027  E8 001C			he: CALL MOVE_SHAPE
+ 002A  EB FB			 jmp he
+ 002C  CB			 RET 
+ 002D				 MAIN ENDP
+				; 
+ 002D				CLEAR_SCREEN PROC NEAR
+ 002D  50			 PUSH AX ;寄存器
+ 002E  53			 PUSH BX
+ 002F  51			 PUSH CX
+ 0030  52			 PUSH DX
+ 0031  B4 06			 MOV AH,6 ;屏幕上卷功能
+ 0033  B0 00			 MOV AL,0
+ 0035  B5 00			 MOV CH,0 ;左上角行号
+ 0037  B1 00			 MOV CL,0 ;左上角列号
+ 0039  B6 18			 MOV DH,24 ;右下角行号
+ 003B  B2 4F			 MOV DL,79 ;右下角列号
+ 003D  B7 07			 MOV BH,7 ;卷入行属性
+ 003F  CD 10			 INT 10H ;调用显示属性
+ 0041  5A			 POP DX ;恢复寄存器
+ 0042  59			 POP CX
+ 0043  5B			 POP BX
+ 0044  58			 POP AX
+ 0045  C3			 RET ;返回主程序
+ 0046				CLEAR_SCREEN ENDP
+				; 
+ 0046				MOVE_SHAPE PROC NEAR
+ 0046  50			 PUSH AX ;寄存器
+ 0047  53			 PUSH BX 
+ 0048  51			 PUSH CX
+ 0049  52			 PUSH DX 
+ 004A  57			  PUSH DI
+ 004B  B4 0F			 MOV AH,0FH ;取当前显示方式
+ 004D  CD 10			 INT 10H
+ 004F  2A ED			 SUB CH,CH ;清除计数器CX的高字节
+ 0051  8A 0D			 MOV CL,[DI] ;CL放循环次数
+ 0053  47			 INC DI ;DI指向字符图形表中的第一个字符
+ 0054  89 0E 001D R		 MOV CHAR_CNT,CX ;保存循环次数
+ 0058  89 3E 001F R		 MOV POINTER,DI    
+ 005C  88 36 0021 R		 MOV LINE_ON,DH
+ 0060  88 16 0022 R		 MOV COL_ON,DL
+ 0064				 PLOT_NEXT:
+ 0064  02 75 02			 ADD DH,[DI+2] ;改变行列指针
+ 0067  02 55 03			 ADD DL,[DI+3]
+ 006A  80 FA 50			 CMP DL,80 ;出屏否？
+ 006D  72 09			 JB MOV_CRSR
+ 006F  E8 0025			 CALL ERASE
+ 0072  5F			 POP  DI 
+ 0073  5A			 POP DX
+ 0074  59			 POP CX 
+ 0075  5B			 POP BX
+ 0076  58			 POP AX 
+ 0077  C3			 RET
+ 0078				 MOV_CRSR:
+ 0078  B4 02			 MOV AH,2 ;移动光标位置
+ 007A  CD 10			 INT 10H
+ 007C  8A 05			 MOV AL, [DI]
+ 007E  8A 5D 01			 MOV BL,[DI+1] ;取字符值及属性
+ 0081  51			 PUSH CX 
+ 0082  B9 0001			 MOV  CX,1
+ 0085  B4 09			 MOV AH,09 ;显示字符
+ 0087  CD 10			 INT 10H 
+ 0089  59			 POP CX
+ 008A  83 C7 04			 ADD DI,4 ;DI指向下一个字符
+ 008D  E2 D5			 LOOP PLOT_NEXT
+ 008F  E8 0046			 CALL DLY_QRTR ;调用延时子程序
+ 0092  E8 0002			 CALL ERASE ;调用擦除子程序
+ 0095  EB CD			 JMP SHORT PLOT_NEXT
+ 0097				MOVE_SHAPE ENDP
+				;
+ 0097				ERASE PROC NEAR
+ 0097  8B 0E 001D R		 MOV CX,CHAR_CNT
+ 009B  8B 3E 001F R		 MOV DI,POINTER
+ 009F  8A 36 0021 R		 MOV DH,LINE_ON
+ 00A3  8A 16 0022 R		 MOV DL,COL_ON
+ 00A7				ERASE_NEXT:
+ 00A7  02 75 02			 ADD DH,[DI+2] 
+ 00AA  02 55 03			 ADD DL,[DI+3]
+ 00AD  B4 02			 MOV AH,2 
+ 00AF  CD 10			 INT 10H
+ 00B1  8A 05			 MOV AL,[DI] 
+ 00B3  B3 00			 MOV BL,0
+ 00B5  51			 PUSH CX 
+ 00B6  B9 0001			 MOV CX,1
+ 00B9  B4 09			 MOV AH,9 
+ 00BB  CD 10			 INT 10H
+ 00BD  59			 POP CX 
+ 00BE  83 C7 04			 ADD DI,4
+ 00C1  E2 E4			 LOOP ERASE_NEXT
+ 00C3  8B 0E 001D R		 MOV CX,CHAR_CNT
+ 00C7  8B 3E 001F R		 MOV DI,POINTER
+				; inc LINE_ON
+ 00CB  8A 36 0021 R		 MOV DH,LINE_ON
+ 00CF  FE 06 0022 R		 INC COL_ON
+ 00D3  8A 16 0022 R		 MOV DL,COL_ON
+ 00D7  C3			 RET
+ 00D8				ERASE ENDP
+ 00D8				DLY_QRTR PROC NEAR ;延时子程序
+ 00D8  51			 	PUSH CX
+ 00D9  52			    PUSH DX
+ 00DA  BA 07D0			 MOV DX,2000
+ 00DD				D11: 
+ 00DD  B9 0AF1			 MOV CX,2801
+ 00E0  E2 FE			D12:LOOP D12 
+ 00E2  4A			 DEC DX
+ 00E3  75 F8			 JNZ D11 
+ 00E5  5A			 POP DX
+ 00E6  59			 POP CX 
+ 00E7  C3			 RET
+ 00E8				DLY_QRTR ENDP
+ 00E8				CODE ENDS
+				 END MAIN
+
+
+Microsoft (R) Macro Assembler Version 6.11		    12/16/13 21:01:02
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODE . . . . . . . . . . . . . .	16 Bit	 00E8	  Para	  Private 'CODE'	
+DATA . . . . . . . . . . . . . .	16 Bit	 0023	  Para	  Private 
+stack  . . . . . . . . . . . . .	16 Bit	 0064	  Para	  Stack	  
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+CLEAR_SCREEN . . . . . . . . . .	P Near	 002D	  CODE	Length= 0019 Public
+DLY_QRTR . . . . . . . . . . . .	P Near	 00D8	  CODE	Length= 0010 Public
+  D11  . . . . . . . . . . . . .	L Near	 00DD	  CODE	
+  D12  . . . . . . . . . . . . .	L Near	 00E0	  CODE	
+ERASE  . . . . . . . . . . . . .	P Near	 0097	  CODE	Length= 0041 Public
+  ERASE_NEXT . . . . . . . . . .	L Near	 00A7	  CODE	
+MAIN . . . . . . . . . . . . . .	P Far	 0000	  CODE	Length= 002D Public
+  he . . . . . . . . . . . . . .	L Near	 0027	  CODE	
+MOVE_SHAPE . . . . . . . . . . .	P Near	 0046	  CODE	Length= 0051 Public
+  PLOT_NEXT  . . . . . . . . . .	L Near	 0064	  CODE	
+  MOV_CRSR . . . . . . . . . . .	L Near	 0078	  CODE	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+CAR  . . . . . . . . . . . . . .	Byte	 0000	  DATA	
+CHAR_CNT . . . . . . . . . . . .	Word	 001D	  DATA	
+COL_ON . . . . . . . . . . . . .	Byte	 0022	  DATA	
+LINE_ON  . . . . . . . . . . . .	Byte	 0021	  DATA	
+POINTER  . . . . . . . . . . . .	Word	 001F	  DATA	
+
+	   0 Warnings
+	   0 Errors

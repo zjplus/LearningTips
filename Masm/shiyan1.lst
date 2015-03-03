@@ -1,0 +1,90 @@
+Microsoft (R) Macro Assembler Version 6.11		    12/22/13 23:29:08
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码 
+ 0000 50 6C 65 61 73 65		    STRING1 DB 'Please input a number(0 to 9):$'
+       20 69 6E 70 75 74
+       20 61 20 6E 75 6D
+       62 65 72 28 30 20
+       74 6F 20 39 29 3A
+       24
+ 001F 54 68 65 20 66 72		    STRING2 DB 'The front number is:',0ah,0dh,'$'
+       6F 6E 74 20 6E 75
+       6D 62 65 72 20 69
+       73 3A 0A 0D 24
+ 0036 54 68 65 20 6E 65		    STRING3 DB 'The next number is:',0ah,0dh,'$'
+       78 74 20 6E 75 6D
+       62 65 72 20 69 73
+       3A 0A 0D 24
+ 004C 0A 0D 24			    CRLF DB 0AH,0DH,'$'
+ 004F				DATAS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+ 0005  BA 0000 R		    MOV DX,OFFSET STRING1
+ 0008  B4 09			    MOV AH,09H
+ 000A  CD 21			    INT 21H
+ 000C  B4 01			    MOV AH,01H
+ 000E  CD 21			    INT 21H					;输入字保存在AL中
+				    
+ 0010  BA 004C R		    MOV DX,OFFSET CRLF		;回车换行
+ 0013  B4 09			    MOV AH,09H
+ 0015  CD 21			    INT 21H
+				    
+ 0017  BA 001F R		    MOV DX,OFFSET STRING2	;输出前一个数字
+ 001A  B4 09			    MOV AH,09H
+ 001C  CD 21			    INT 21H
+ 001E  8A D8			    MOV BL,AL				
+ 0020  8A D3			    MOV DL,BL
+ 0022  FE CA			    DEC DL
+ 0024  B4 02			    MOV AH,02H
+ 0026  CD 21			    INT 21H
+				    
+ 0028  BA 004C R		    MOV DX,OFFSET CRLF		;回车换行
+ 002B  B4 09			    MOV AH,09H
+ 002D  CD 21			    INT 21H
+				    
+ 002F  BA 0036 R		    MOV DX,OFFSET STRING3	;输出后一个数字
+ 0032  B4 09			    MOV AH,09H
+ 0034  CD 21			    INT 21H
+ 0036  8A D3			    MOV DL,BL
+ 0038  FE C2			    INC DL
+ 003A  B4 02			    MOV AH,02H
+ 003C  CD 21			    INT 21H
+
+ 003E  B4 4C			    MOV AH,4CH
+ 0040  CD 21			    INT 21H
+ 0042				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    12/22/13 23:29:08
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0042	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 004F	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+CRLF . . . . . . . . . . . . . .	Byte	 004C	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STRING1  . . . . . . . . . . . .	Byte	 0000	  DATAS	
+STRING2  . . . . . . . . . . . .	Byte	 001F	  DATAS	
+STRING3  . . . . . . . . . . . .	Byte	 0036	  DATAS	
+
+	   0 Warnings
+	   0 Errors

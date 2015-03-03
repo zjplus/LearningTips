@@ -1,0 +1,26 @@
+|gate097
+a => and_gate097:u1.a_and
+b => and_gate097:u1.b_and
+c => or_gate097:u2.a_or
+d => or_gate097:u2.b_or
+e <= nand_gate097:u3.c_nand
+
+
+|gate097|and_gate097:u1
+a_and => c_and.IN0
+b_and => c_and.IN1
+c_and <= c_and.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|gate097|or_gate097:u2
+a_or => c_or.IN0
+b_or => c_or.IN1
+c_or <= c_or.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|gate097|nand_gate097:u3
+a_nand => c_nand.IN0
+b_nand => c_nand.IN1
+c_nand <= c_nand.DB_MAX_OUTPUT_PORT_TYPE
+
+

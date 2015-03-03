@@ -1,0 +1,54 @@
+DATAS SEGMENT
+    ;此处输入数据段代码
+   A DB 'KAShhHGs'
+   B DB 'JHdnnjJL'
+   CRLF DB 0AH,0DH,'$'
+DATAS ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    ;此处输入代码段代码,将字母全部转换为大写
+    MOV SI,0
+    MOV CX,8
+ S1:MOV DL,[SI]
+  	AND DL,223
+  	MOV [SI],DL
+  	MOV AH,02H
+  	INT 21H
+  	INC SI
+  	LOOP S1
+  	
+  	
+  	;CRLF
+  	MOV DX,OFFSET CRLF
+  	MOV AH,09H
+  	INT 21H
+  	
+  	;将字母全部转换为小写
+  	MOV SI,0
+  	MOV CX,8
+ S2:MOV DL,0
+ 	MOV DL,[SI+8]
+ 	OR DL,32
+ 	MOV [SI],DL
+ 	INC SI
+ 	MOV AH,02H
+ 	INT 21H
+ 	LOOP S2	
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+    END START
+
+
+
+
+
+

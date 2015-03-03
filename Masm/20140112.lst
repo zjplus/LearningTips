@@ -1,0 +1,200 @@
+Microsoft (R) Macro Assembler Version 6.11		    01/12/14 16:30:29
+tempfile.asm						     Page 1 - 1
+
+
+				;---------------------------输入宏定义
+				INPUT MACRO STRING
+					LEA DX,STRING
+					MOV AH,0AH
+					INT 21H
+					ENDM
+				;--------------------------输出宏定义
+				OUTPUT MACRO STRING
+					LEA DX,STRING
+					MOV AH,09H
+					INT 21H
+					ENDM
+				;-------------------------回车换行宏定义	
+				CRLF MACRO 
+					MOV DL,0DH
+					MOV AH,02H
+					INT 21H
+					MOV DL,0AH
+					MOV AH,02H
+					INT 21H
+					ENDM
+				;------------------------------数据段定义	
+ 0000				DATAS SEGMENT
+ 0000 32 00				ARRAY DB 50,?,50 DUP(?),'$'
+       0032 [
+        00
+       ] 24
+ 0035 44 53 59 55 57 37			STR1 DB 'DSYUW7*'
+       2A
+ 003C  0032 [					 DB 50 DUP(?),'$'
+        00
+       ] 24
+ 006F 50 6C 65 61 73 65			STR2 DB 'Please input the string: ','$'
+       20 69 6E 70 75 74
+       20 74 68 65 20 73
+       74 72 69 6E 67 3A
+       20 24
+ 0089 54 68 65 20 6E 65			STR3 DB 'The new string is: ','$'
+       77 20 73 74 72 69
+       6E 67 20 69 73 3A
+       20 24
+ 009D 54 68 65 20 6C 65			STR4 DB 'The length is: ','$'
+       6E 67 74 68 20 69
+       73 3A 20 24
+ 00AD				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+ 0000  0008 [				DB 8 DUP(0)	
+        00
+       ]
+ 0008				STACKS ENDS
+
+ 0000				CODES SEGMENT
+					ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+				;-------------------------------主程序
+ 0000				MAIN PROC FAR
+ 0000  B8 ---- R			MOV AX,DATAS
+ 0003  8E D8				MOV DS,AX
+					
+					OUTPUT STR2
+ 0005  8D 16 006F R	     1		LEA DX,STR2
+ 0009  B4 09		     1		MOV AH,09H
+ 000B  CD 21		     1		INT 21H
+					INPUT ARRAY
+ 000D  8D 16 0000 R	     1		LEA DX,ARRAY
+ 0011  B4 0A		     1		MOV AH,0AH
+ 0013  CD 21		     1		INT 21H
+					
+ 0015  2B C0				SUB AX,AX
+ 0017  2B DB				SUB BX,BX
+ 0019  BE 0000				MOV SI,0
+ 001C  8A 9C 0001 R			MOV BL,ARRAY[SI+1]
+ 0020  53				PUSH BX
+ 0021  BF 0005				MOV DI,5	
+ 0024  8B CB				MOV CX,BX
+ 0026				LOOP1:
+ 0026  8A 87 0001 R			MOV AL,ARRAY[BX+1]
+ 002A  88 85 0035 R			MOV STR1[DI],AL
+ 002E  4B				DEC BX
+ 002F  47				INC DI
+ 0030  E2 F4				LOOP LOOP1
+					
+					CRLF
+ 0032  B2 0D		     1		MOV DL,0DH
+ 0034  B4 02		     1		MOV AH,02H
+ 0036  CD 21		     1		INT 21H
+ 0038  B2 0A		     1		MOV DL,0AH
+ 003A  B4 02		     1		MOV AH,02H
+ 003C  CD 21		     1		INT 21H
+					OUTPUT STR3
+ 003E  8D 16 0089 R	     1		LEA DX,STR3
+ 0042  B4 09		     1		MOV AH,09H
+ 0044  CD 21		     1		INT 21H
+					OUTPUT STR1
+ 0046  8D 16 0035 R	     1		LEA DX,STR1
+ 004A  B4 09		     1		MOV AH,09H
+ 004C  CD 21		     1		INT 21H
+						
+
+					CRLF
+ 004E  B2 0D		     1		MOV DL,0DH
+ 0050  B4 02		     1		MOV AH,02H
+ 0052  CD 21		     1		INT 21H
+ 0054  B2 0A		     1		MOV DL,0AH
+ 0056  B4 02		     1		MOV AH,02H
+ 0058  CD 21		     1		INT 21H
+					OUTPUT STR4
+ 005A  8D 16 009D R	     1		LEA DX,STR4
+ 005E  B4 09		     1		MOV AH,09H
+ 0060  CD 21		     1		INT 21H
+ 0062  5B				POP BX
+ 0063  83 C3 05				ADD BX,5
+ 0066  E8 0001				CALL SON
+ 0069  CB				RET
+ 006A					MAIN ENDP
+				;----------------------------子程序
+ 006A				SON PROC NEAR
+ 006A  8B C3				MOV AX,BX
+ 006C  B3 0A				MOV BL,10
+ 006E  83 F8 09				CMP AX,9
+ 0071  76 18				JBE L1
+ 0073  F6 F3				DIV BL
+ 0075  50				PUSH AX
+ 0076  8A D0				MOV DL,AL
+ 0078  80 C2 30				ADD DL,30H
+ 007B  B4 02				MOV AH,02H
+ 007D  CD 21				INT 21H
+ 007F  58				POP AX
+ 0080  8A D4				MOV DL,AH
+ 0082  80 C2 30				ADD DL,30H
+ 0085  B4 02				MOV AH,02H
+ 0087  CD 21				INT 21H
+ 0089  EB 09				JMP EXIT
+ 008B				L1:
+ 008B  8A D0				MOV DL,AL
+ 008D  80 C2 30				ADD DL,30H
+ 0090  B4 02				MOV AH,02H
+ 0092  CD 21				INT 21H
+ 0094				EXIT:
+ 0094  C3				RET
+ 0095					SON ENDP
+				;***************************************
+ 0095  B4 4C				MOV AH,4CH
+ 0097  CD 21				INT 21H
+ 0099				CODES ENDS
+					END START	
+
+Microsoft (R) Macro Assembler Version 6.11		    01/12/14 16:30:29
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Macros:
+
+                N a m e                 Type
+
+CRLF . . . . . . . . . . . . . .	Proc
+INPUT  . . . . . . . . . . . . .	Proc
+OUTPUT . . . . . . . . . . . . .	Proc
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0099	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 00AD	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0008	  Para	  Private 
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+MAIN . . . . . . . . . . . . . .	P Far	 0000	  CODES	Length= 006A Public
+  LOOP1  . . . . . . . . . . . .	L Near	 0026	  CODES	
+SON  . . . . . . . . . . . . . .	P Near	 006A	  CODES	Length= 002B Public
+  L1 . . . . . . . . . . . . . .	L Near	 008B	  CODES	
+  EXIT . . . . . . . . . . . . .	L Near	 0094	  CODES	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+ARRAY  . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STR1 . . . . . . . . . . . . . .	Byte	 0035	  DATAS	
+STR2 . . . . . . . . . . . . . .	Byte	 006F	  DATAS	
+STR3 . . . . . . . . . . . . . .	Byte	 0089	  DATAS	
+STR4 . . . . . . . . . . . . . .	Byte	 009D	  DATAS	
+
+	   0 Warnings
+	   0 Errors

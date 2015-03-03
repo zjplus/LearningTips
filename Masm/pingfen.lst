@@ -1,0 +1,271 @@
+Microsoft (R) Macro Assembler Version 6.11		    12/29/13 23:48:37
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码
+ 0000  000A [			    GRADE DB 10 DUP(0),'$'
+        00
+       ] 24
+ 000B 50 6C 65 61 73 65		    INPUT DB 'Please input 10 score<0 to 9>:$'
+       20 69 6E 70 75 74
+       20 31 30 20 73 63
+       6F 72 65 3C 30 20
+       74 6F 20 39 3E 3A
+       24
+ 002A 0A 0D 24			    CRLF DB 0AH,0DH,'$'
+ 002D 54 68 65 20 68 69		    OUTPUT1 DB 'The highest score is student$'
+       67 68 65 73 74 20
+       73 63 6F 72 65 20
+       69 73 20 73 74 75
+       64 65 6E 74 24
+ 004A 54 68 65 20 6C 6F		    OUTPUT2 DB 'The lowest score is student$'
+       77 65 73 74 20 73
+       63 6F 72 65 20 69
+       73 20 73 74 75 64
+       65 6E 74 24
+ 0066 00 24			    STUDENT1 DB 0,'$'
+ 0068 00 24			    STUDENT2 DB 0,'$'
+ 006A 00 24			    STUDENT3 DB 0,'$'
+ 006C 00 24			    STUDENT4 DB 0,'$'
+ 006E 00 24			    STUDENT5 DB 0,'$'
+				      
+ 0070				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000  0008 [			    DB 8 DUP(0)
+        00
+       ]
+ 0008				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+ 0005  B9 0005				MOV CX,5
+ 0008				LOOPS:
+ 0008  51				PUSH CX
+				;依次输入十个数存在GRADE中
+ 0009  BA 000B R			MOV DX,OFFSET INPUT
+ 000C  B4 09				MOV AH,09H
+ 000E  CD 21				INT 21H
+					
+ 0010  B8 0000				MOV AX,0
+ 0013  BB 0000				MOV BX,0
+ 0016  B9 000A				MOV CX,10
+ 0019  B4 01			S:	MOV AH,01H
+ 001B  CD 21				INT 21H
+ 001D  2C 30				SUB AL,30H
+ 001F  88 07				MOV [BX],AL
+ 0021  43				INC BX
+ 0022  E2 F5				LOOP S
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;将十个数冒泡排序后放在GRADE中
+ 0024  B9 000A				MOV CX,10
+ 0027  8B F9			S1: MOV DI,CX
+ 0029  B9 0009				MOV CX,9
+ 002C  BB 0000				MOV BX,0
+ 002F				S2:
+ 002F  8A 87 0000 R			MOV AL,GRADE[BX]
+ 0033  3A 87 0001 R			CMP AL,GRADE[BX+1]
+ 0037  7D 08				JGE CONTINUE
+ 0039  86 87 0001 R			XCHG AL,GRADE[BX+1]
+ 003D  88 87 0000 R			MOV GRADE[BX],AL
+ 0041				CONTINUE:
+ 0041  43				INC BX
+ 0042  E2 EB				LOOP S2
+ 0044  8B CF				MOV CX,DI
+ 0046  E2 DF				LOOP S1
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;将输入的数从第2个加到第7个的和放进STUDENT中
+ 0048  B0 00				MOV AL,0
+ 004A  B9 0006				MOV CX,6
+ 004D  BE 0002			HE: MOV SI,2
+ 0050  02 84 0000 R			ADD AL,GRADE[SI]
+ 0054  46				INC SI 
+ 0055  E2 F6				LOOP HE
+ 0057  BB 0000				MOV BX,0
+ 005A  59				POP CX
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;比较cx的值，依次放入student*中
+ 005B  83 F9 05				CMP CX,5
+ 005E  74 14				JZ L1
+ 0060  83 F9 04				CMP CX,4
+ 0063  74 15				JZ L2
+ 0065  83 F9 03				CMP CX,3
+ 0068  74 16				JZ L3
+ 006A  83 F9 02				CMP CX,2
+ 006D  74 17				JZ L4
+ 006F  83 F9 01				CMP CX,1
+ 0072  74 18				JZ L5
+ 0074  88 87 0066 R		L1:	MOV STUDENT1[BX],AL
+ 0078  EB 16				JMP NEXT
+ 007A  88 87 0068 R		L2:	MOV STUDENT2[BX],AL
+ 007E  EB 10				JMP NEXT
+ 0080  88 87 006A R		L3:	MOV STUDENT3[BX],AL
+ 0084  EB 0A				JMP NEXT
+ 0086  88 87 006C R		L4:	MOV STUDENT4[BX],AL
+ 008A  EB 04				JMP NEXT
+ 008C  88 87 006E R		L5:	MOV STUDENT5[BX],AL	
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;输出STUDENT*[BX]里的数字
+ 0090				NEXT:
+ 0090  B4 00				MOV AH,0
+ 0092  B3 0A				MOV BL,10
+ 0094  F6 F3				DIV BL			;余数放在AH中，商在AL中
+ 0096  8A FC				MOV BH,AH		;余数转到BH中
+					
+ 0098  BA 002A R			MOV DX,OFFSET CRLF
+ 009B  B4 09				MOV AH,09H
+ 009D  CD 21				INT 21H
+					
+ 009F  8A D0				MOV DL,AL		;输出十位
+ 00A1  80 C2 30				ADD DL,30H
+ 00A4  B4 02				MOV AH,02H
+ 00A6  CD 21				INT 21H
+ 00A8  8A D7				MOV DL,BH		;输出个位
+ 00AA  80 C2 30				ADD DL,30H
+ 00AD  B4 02				MOV AH,02H
+ 00AF  CD 21				INT 21H
+					
+ 00B1  BA 002A R			MOV DX,OFFSET CRLF
+ 00B4  B4 09				MOV AH,09H
+ 00B6  CD 21				INT 21H
+					
+ 00B8  49				DEC CX
+ 00B9  83 F9 00				CMP CX,0
+ 00BC  7E 03 E9 FF47			JG LOOPS
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;比较输出最大值
+ 00C1  8D 1E 0066 R			LEA BX,STUDENT1
+ 00C5  8A 17				MOV DL,[BX]
+ 00C7  BE 0000				MOV SI,0
+ 00CA  B9 0004				MOV CX,4
+ 00CD  3A 50 02			MAX:CMP DL,[BX+SI+2]
+ 00D0  7D 03				JNL P
+ 00D2  8A 50 02				MOV DL,[BX+SI+2]
+ 00D5				P:	
+ 00D5  83 C6 02				ADD SI,2
+ 00D8  E2 F3				LOOP MAX
+ 00DA  B9 0004				MOV CX,4
+ 00DD  BE 0000				MOV SI,0
+ 00E0  3A 10			P1:	CMP DL,[BX+SI]
+ 00E2  74 05				JZ P2
+ 00E4  83 C6 02				ADD SI,2
+ 00E7  E2 F7				LOOP P1	
+ 00E9  B4 00			P2:	MOV AH,0
+ 00EB  8B C6				MOV AX,SI
+ 00ED  B3 02				MOV BL,2
+ 00EF  F6 F3				DIV BL
+ 00F1  8A D0				MOV DL,AL
+ 00F3  FE C2				INC DL
+ 00F5  52				PUSH DX
+					
+ 00F6  BA 002D R			MOV DX,OFFSET OUTPUT1
+ 00F9  B4 09				MOV AH,09H
+ 00FB  CD 21				INT 21H
+ 00FD  5A				POP DX
+ 00FE  80 C2 30				ADD DL,30H
+ 0101  B4 02				MOV AH,02H
+ 0103  CD 21				INT 21H
+					
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ 0105  BA 002A R			MOV DX,OFFSET CRLF
+ 0108  B4 09				MOV AH,09H
+ 010A  CD 21				INT 21H
+				;比较输出最小值
+ 010C  8D 1E 0066 R			LEA BX,STUDENT1
+ 0110  8A 17				MOV DL,[BX]
+ 0112  BE 0000				MOV SI,0
+ 0115  B9 0004				MOV CX,4
+ 0118  3A 50 02			MIN:CMP DL,[BX+SI+2]
+ 011B  7C 03				JL Q
+ 011D  8A 50 02				MOV DL,[BX+SI+2]
+ 0120				Q:	
+ 0120  83 C6 02				ADD SI,2
+ 0123  E2 F3				LOOP MIN
+					
+ 0125  B9 0004				MOV CX,4
+ 0128  BE 0000				MOV SI,0
+ 012B  3A 10			Q1:	CMP DL,[BX+SI]
+ 012D  74 05				JZ Q2
+ 012F  83 C6 02				ADD SI,2
+ 0132  E2 F7				LOOP Q1	
+ 0134  B4 00			Q2:	MOV AH,0
+ 0136  8B C6				MOV AX,SI
+ 0138  B3 02				MOV BL,2
+ 013A  F6 F3				DIV BL
+ 013C  8A D0				MOV DL,AL
+ 013E  FE C2				INC DL
+ 0140  52				PUSH DX
+					
+ 0141  BA 004A R			MOV DX,OFFSET OUTPUT2
+ 0144  B4 09				MOV AH,09H
+ 0146  CD 21				INT 21H
+ 0148  5A				POP DX
+ 0149  80 C2 30				ADD DL,30H
+ 014C  B4 02				MOV AH,02H
+ 014E  CD 21				INT 21H
+ 0150  B4 4C			    MOV AH,4CH
+ 0152  CD 21			    INT 21H
+ 0154				CODES ENDS
+				    END START
+
+Microsoft (R) Macro Assembler Version 6.11		    12/29/13 23:48:37
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0154	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0070	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0008	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+CONTINUE . . . . . . . . . . . .	L Near	 0041	  CODES	
+CRLF . . . . . . . . . . . . . .	Byte	 002A	  DATAS	
+GRADE  . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+HE . . . . . . . . . . . . . . .	L Near	 004D	  CODES	
+INPUT  . . . . . . . . . . . . .	Byte	 000B	  DATAS	
+L1 . . . . . . . . . . . . . . .	L Near	 0074	  CODES	
+L2 . . . . . . . . . . . . . . .	L Near	 007A	  CODES	
+L3 . . . . . . . . . . . . . . .	L Near	 0080	  CODES	
+L4 . . . . . . . . . . . . . . .	L Near	 0086	  CODES	
+L5 . . . . . . . . . . . . . . .	L Near	 008C	  CODES	
+LOOPS  . . . . . . . . . . . . .	L Near	 0008	  CODES	
+MAX  . . . . . . . . . . . . . .	L Near	 00CD	  CODES	
+MIN  . . . . . . . . . . . . . .	L Near	 0118	  CODES	
+NEXT . . . . . . . . . . . . . .	L Near	 0090	  CODES	
+OUTPUT1  . . . . . . . . . . . .	Byte	 002D	  DATAS	
+OUTPUT2  . . . . . . . . . . . .	Byte	 004A	  DATAS	
+P1 . . . . . . . . . . . . . . .	L Near	 00E0	  CODES	
+P2 . . . . . . . . . . . . . . .	L Near	 00E9	  CODES	
+P  . . . . . . . . . . . . . . .	L Near	 00D5	  CODES	
+Q1 . . . . . . . . . . . . . . .	L Near	 012B	  CODES	
+Q2 . . . . . . . . . . . . . . .	L Near	 0134	  CODES	
+Q  . . . . . . . . . . . . . . .	L Near	 0120	  CODES	
+S1 . . . . . . . . . . . . . . .	L Near	 0027	  CODES	
+S2 . . . . . . . . . . . . . . .	L Near	 002F	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STUDENT1 . . . . . . . . . . . .	Byte	 0066	  DATAS	
+STUDENT2 . . . . . . . . . . . .	Byte	 0068	  DATAS	
+STUDENT3 . . . . . . . . . . . .	Byte	 006A	  DATAS	
+STUDENT4 . . . . . . . . . . . .	Byte	 006C	  DATAS	
+STUDENT5 . . . . . . . . . . . .	Byte	 006E	  DATAS	
+S  . . . . . . . . . . . . . . .	L Near	 0019	  CODES	
+
+	   0 Warnings
+	   0 Errors

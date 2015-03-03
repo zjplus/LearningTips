@@ -1,0 +1,85 @@
+m255
+K3
+13
+cModel Technology
+Z0 dE:\Code\Quartus\Clock097\simulation\qsim
+vClock_097
+Z1 IC1Q1_:YmO<KjB0IB5^K^N2
+Z2 Vl7iL6NLX1DfWXBmL?6EK]2
+Z3 dE:\Code\Quartus\Clock097\simulation\qsim
+Z4 w1419686608
+Z5 8Clock_097.vo
+Z6 FClock_097.vo
+L0 32
+Z7 OV;L;10.1e;51
+r1
+31
+Z8 o-work work -O0
+Z9 n@clock_097
+!i10b 1
+Z10 !s100 EhDGfe:X80ea?M?GRSoSD0
+!s85 0
+Z11 !s108 1419686609.407000
+Z12 !s107 Clock_097.vo|
+Z13 !s90 -work|work|Clock_097.vo|
+!s101 -O0
+vClock_097_vlg_check_tst
+!i10b 1
+!s100 Z>Ga12<`VAC5LDhHb4S?z1
+IfBkPGAPONE^;ITm7:I@JD1
+VdJUOR;;i_NKa7J_QMbUPH2
+R3
+Z14 w1419686606
+Z15 8Waveform.vwf.vt
+Z16 FWaveform.vwf.vt
+L0 58
+R7
+r1
+!s85 0
+31
+Z17 !s108 1419686609.688000
+Z18 !s107 Waveform.vwf.vt|
+Z19 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R8
+n@clock_097_vlg_check_tst
+vClock_097_vlg_sample_tst
+!i10b 1
+!s100 B9PhScNAHQQo0Xki6ic;z1
+I>FbT0V6H9?3Sk_D`CheR`2
+VK9jQLO<z:e`ANSYlM2=4F3
+R3
+R14
+R15
+R16
+L0 30
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!s101 -O0
+R8
+n@clock_097_vlg_sample_tst
+vClock_097_vlg_vec_tst
+!i10b 1
+!s100 L1oMTddJCKYX5ZV9b^gR10
+IGmNjd6OI9UCbD<KglUTH42
+Vf?oJjeT4f;TWWz;Y]?P9M3
+R3
+R14
+R15
+R16
+L0 456
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!s101 -O0
+R8
+n@clock_097_vlg_vec_tst

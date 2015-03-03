@@ -1,0 +1,128 @@
+Microsoft (R) Macro Assembler Version 6.11		    01/03/14 22:55:29
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+ 0000  0032 [			ARRAY DB 50 DUP(?)
+        00
+       ]
+ 0032 50 6C 65 61 73 65		    STR1 DB 'Please input the string: ','$'
+       20 69 6E 70 75 74
+       20 74 68 65 20 73
+       74 72 69 6E 67 3A
+       20 24
+ 004C 54 68 65 20 63 6F		    STR2 DB 'The count is: ','$'
+       75 6E 74 20 69 73
+       3A 20 24
+ 005B 0D 0A 24			    CRLF DB 0DH,0AH,'$' 
+ 005E				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				   
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				;---------------------------;输入字符串	
+ 0005  BA 0032 R		MOV DX,OFFSET STR1
+ 0008  B4 09			MOV AH,09H
+ 000A  CD 21			INT 21H
+
+ 000C  8D 3E 0000 R		LEA DI,ARRAY
+ 0010  BA 0000			MOV DX,0
+ 0013				INPUT:
+ 0013  B4 01			MOV AH,01H
+ 0015  CD 21			INT 21H
+ 0017  88 05			MOV [DI],AL
+ 0019  47			INC DI
+ 001A  3C 24			CMP AL,24H
+ 001C  75 F5			JNE INPUT	
+
+ 001E  8D 3E 0000 R		LEA DI,ARRAY
+ 0022  BA 0000			MOV DX,0
+ 0025				L1:
+ 0025  8A 05			MOV AL,[DI]
+ 0027  47			INC DI
+ 0028  3C 24			CMP AL,24H
+ 002A  74 0D			JE OUTPUT
+ 002C  42			INC DX
+ 002D  3C 30			CMP AL,30H
+ 002F  76 F4			JBE L1
+ 0031  3C 39			CMP AL,39H
+ 0033  77 F0			JA L1
+ 0035  4A			DEC DX
+ 0036  EB ED			JMP L1
+				;------------------------------;输出显示
+
+ 0038  52			PUSH DX
+ 0039				OUTPUT:
+ 0039  BA 005B R		MOV DX,OFFSET CRLF
+ 003C  B4 09			MOV AH,09H
+ 003E  CD 21			INT 21H
+ 0040  BA 004C R		MOV DX,OFFSET STR2
+ 0043  B4 09			MOV AH,09H
+ 0045  CD 21			INT 21H
+
+ 0047  5A			POP DX
+ 0048  8B DA			MOV BX,DX
+ 004A  83 FA 0A			CMP DX,10
+ 004D  7D 09			JNL NEXT
+ 004F  80 C2 30			ADD DL,30H
+ 0052  B4 02			MOV AH,02H
+ 0054  CD 21			INT 21H	
+ 0056  EB 1A			JMP EXIT
+ 0058				NEXT:
+ 0058  8B C3			MOV AX,BX
+ 005A  B3 0A			MOV BL,10
+ 005C  F6 F3			DIV BL;商在AL中，余数在AH中
+ 005E  50			PUSH AX
+ 005F  8A D0			MOV DL,AL
+ 0061  80 C2 30			ADD DL,30H
+ 0064  B4 02			MOV AH,02H
+ 0066  CD 21			INT 21H
+ 0068  58			POP AX
+ 0069  8A D4			MOV DL,AH
+ 006B  80 C2 30			ADD DL,30H
+ 006E  B4 02			MOV AH,02H
+ 0070  CD 21			INT 21H	
+ 0072				EXIT:	
+ 0072  B4 4C			    MOV AH,4CH
+ 0074  CD 21			    INT 21H
+ 0076				CODES ENDS
+				    END START
+
+Microsoft (R) Macro Assembler Version 6.11		    01/03/14 22:55:29
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0076	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 005E	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+ARRAY  . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+CRLF . . . . . . . . . . . . . .	Byte	 005B	  DATAS	
+EXIT . . . . . . . . . . . . . .	L Near	 0072	  CODES	
+INPUT  . . . . . . . . . . . . .	L Near	 0013	  CODES	
+L1 . . . . . . . . . . . . . . .	L Near	 0025	  CODES	
+NEXT . . . . . . . . . . . . . .	L Near	 0058	  CODES	
+OUTPUT . . . . . . . . . . . . .	L Near	 0039	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STR1 . . . . . . . . . . . . . .	Byte	 0032	  DATAS	
+STR2 . . . . . . . . . . . . . .	Byte	 004C	  DATAS	
+
+	   0 Warnings
+	   0 Errors

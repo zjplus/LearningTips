@@ -1,0 +1,27 @@
+|Clock_097
+clk => sc.CLK
+clk => s[0].CLK
+clk => s[1].CLK
+clk => s[2].CLK
+clk => s[3].CLK
+clk => s[4].CLK
+clk => s[5].CLK
+sout[0] <= s[0].DB_MAX_OUTPUT_PORT_TYPE
+sout[1] <= s[1].DB_MAX_OUTPUT_PORT_TYPE
+sout[2] <= s[2].DB_MAX_OUTPUT_PORT_TYPE
+sout[3] <= s[3].DB_MAX_OUTPUT_PORT_TYPE
+sout[4] <= s[4].DB_MAX_OUTPUT_PORT_TYPE
+sout[5] <= s[5].DB_MAX_OUTPUT_PORT_TYPE
+mout[0] <= m[0].DB_MAX_OUTPUT_PORT_TYPE
+mout[1] <= m[1].DB_MAX_OUTPUT_PORT_TYPE
+mout[2] <= m[2].DB_MAX_OUTPUT_PORT_TYPE
+mout[3] <= m[3].DB_MAX_OUTPUT_PORT_TYPE
+mout[4] <= m[4].DB_MAX_OUTPUT_PORT_TYPE
+mout[5] <= m[5].DB_MAX_OUTPUT_PORT_TYPE
+hout[0] <= h[0].DB_MAX_OUTPUT_PORT_TYPE
+hout[1] <= h[1].DB_MAX_OUTPUT_PORT_TYPE
+hout[2] <= h[2].DB_MAX_OUTPUT_PORT_TYPE
+hout[3] <= h[3].DB_MAX_OUTPUT_PORT_TYPE
+hout[4] <= h[4].DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -1,0 +1,20 @@
+|counter
+clk => QI[0].CLK
+clk => QI[1].CLK
+clk => QI[2].CLK
+clk => QI[3].CLK
+reset => QI[0].ACLR
+reset => QI[1].ACLR
+reset => QI[2].ACLR
+reset => QI[3].ACLR
+set => QI[3].ENA
+set => QI[2].ENA
+set => QI[1].ENA
+set => QI[0].ENA
+Q[0] <= QI[0].DB_MAX_OUTPUT_PORT_TYPE
+Q[1] <= QI[1].DB_MAX_OUTPUT_PORT_TYPE
+Q[2] <= QI[2].DB_MAX_OUTPUT_PORT_TYPE
+Q[3] <= QI[3].DB_MAX_OUTPUT_PORT_TYPE
+C <= Equal0.DB_MAX_OUTPUT_PORT_TYPE
+
+

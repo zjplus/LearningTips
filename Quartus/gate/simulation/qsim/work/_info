@@ -1,0 +1,81 @@
+m255
+K3
+13
+cModel Technology
+Z0 dE:\Code\Quartus\gate\simulation\qsim
+vgate
+Z1 IB;0IH6=<WF;3RDdHnVkK42
+Z2 VzI]kn4aK:Q6;Y_XXO_70j0
+Z3 dE:\Code\Quartus\gate\simulation\qsim
+Z4 w1418474611
+Z5 8gate.vo
+Z6 Fgate.vo
+L0 32
+Z7 OV;L;10.1e;51
+r1
+31
+Z8 o-work work -O0
+!i10b 1
+Z9 !s100 5dVTl[]gP2:RBEFQzbe3n2
+!s85 0
+Z10 !s108 1418474612.623000
+Z11 !s107 gate.vo|
+Z12 !s90 -work|work|gate.vo|
+!s101 -O0
+vgate_vlg_check_tst
+!i10b 1
+!s100 4QDKczk4AVaCS83A_gfFD3
+IL]C>NIEY1ofjWi:J:9E4E0
+V_48Ni0l`EB<S7iO;gVdK80
+R3
+Z13 w1418474610
+Z14 8Waveform.vwf.vt
+Z15 FWaveform.vwf.vt
+L0 64
+R7
+r1
+!s85 0
+31
+Z16 !s108 1418474612.850000
+Z17 !s107 Waveform.vwf.vt|
+Z18 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R8
+vgate_vlg_sample_tst
+!i10b 1
+!s100 I]P[X=6@m[DYR[A@RM_`n1
+Il@f7]oUg`MSI_m?:T8;?]1
+V2NFe`e=idh_oFM@X5P@RF2
+R3
+R13
+R14
+R15
+L0 30
+R7
+r1
+!s85 0
+31
+R16
+R17
+R18
+!s101 -O0
+R8
+vgate_vlg_vec_tst
+!i10b 1
+!s100 S8mPi0n;DlNE^?fTb<95`1
+IdJhI;c?HR2]S3lPoDb1if3
+VmgG?mM?TC<l<CzBf25><L2
+R3
+R13
+R14
+R15
+L0 159
+R7
+r1
+!s85 0
+31
+R16
+R17
+R18
+!s101 -O0
+R8

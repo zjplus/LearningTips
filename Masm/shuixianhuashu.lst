@@ -1,0 +1,128 @@
+Microsoft (R) Macro Assembler Version 6.11		    12/29/13 23:30:10
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码
+ 0000  0004 [			    NUM DW 4 DUP(0)
+        0000
+       ]
+ 0008 00 24			    SPACE DB 0,'$'
+ 000A				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000  0008 [			    DB 8 DUP(0)
+        00
+       ]
+ 0008				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS  
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+ 0005  BA 0064			    MOV DX,100
+ 0008  B9 0383			    MOV CX,899
+ 000B				AGAIN:
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;百位，十位，个位依次存放在NUM中
+ 000B  52				PUSH DX			;把数值放在栈中保存
+					
+ 000C  8B C2				MOV AX,DX
+ 000E  BA 0000				MOV DX,0
+ 0011  BB 0064				MOV BX,100
+ 0014  F7 F3				DIV BX			;余数1在DX中，商1在AX中
+ 0016  A3 0000				MOV DS:[0],AX
+					
+ 0019  8B C2				MOV AX,DX
+ 001B  BA 0000				MOV DX,0
+ 001E  BB 000A				MOV BX,10
+ 0021  F7 F3				DIV BX			;余数2在DX中，商2在AX中
+ 0023  A3 0002				MOV DS:[2],AX
+ 0026  89 16 0004			MOV DS:[4],DX	
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;求三个数的立方和
+ 002A  A1 0000				MOV AX,DS:[0]
+ 002D  8B D8				MOV BX,AX
+ 002F  F7 E3				MUL BX
+ 0031  F7 E3				MUL BX
+ 0033  A3 0006				MOV DS:[6],AX			;百位立方放入DS:[6]中
+					
+ 0036  A1 0002				MOV AX,DS:[2]
+ 0039  8B D8				MOV BX,AX
+ 003B  F7 E3				MUL BX
+ 003D  F7 E3				MUL BX
+ 003F  01 06 0006			ADD DS:[6],AX			;十位立方累加到DS:[6]中
+					
+ 0043  A1 0004				MOV AX,DS:[4]
+ 0046  8B D8				MOV BX,AX
+ 0048  F7 E3				MUL BX
+ 004A  F7 E3				MUL BX
+ 004C  01 06 0006			ADD DS:[6],AX			;个位立方累加到DS:[6]中
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;比较ax中的数和COUNT里的数，并且输出相等情况下
+ 0050  8B 1E 0006			MOV BX,DS:[6]
+ 0054  58				POP AX
+ 0055  8B D0				MOV DX,AX
+ 0057  52				PUSH DX
+ 0058  3B C3				CMP AX,BX
+ 005A  74 09				JZ S
+ 005C  5A			R:	POP DX
+ 005D  42				INC DX
+ 005E  83 F9 01				CMP CX,1
+ 0061  74 2C				JZ T
+ 0063  E2 A6				LOOP AGAIN
+					
+ 0065  8A 16 0000		S:	MOV DL,DS:[0]			;输出数字
+ 0069  80 C2 30				ADD DL,30H
+ 006C  B4 02				MOV AH,02H
+ 006E  CD 21				INT 21H
+ 0070  8A 16 0002			MOV DL,DS:[2]
+ 0074  80 C2 30				ADD DL,30H
+ 0077  B4 02				MOV AH,02H
+ 0079  CD 21				INT 21H
+ 007B  8A 16 0004			MOV DL,DS:[4]
+ 007F  80 C2 30				ADD DL,30H
+ 0082  B4 02				MOV AH,02H
+ 0084  CD 21				INT 21H
+					
+ 0086  BA 0008 R			MOV DX,OFFSET SPACE		;输出间隔
+ 0089  B4 09				MOV AH,09H
+ 008B  CD 21				INT 21H
+ 008D  EB CD				JMP R
+ 008F				T:
+ 008F  B4 4C			    MOV AH,4CH
+ 0091  CD 21			    INT 21H
+ 0093				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    12/29/13 23:30:10
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0093	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 000A	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0008	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+AGAIN  . . . . . . . . . . . . .	L Near	 000B	  CODES	
+NUM  . . . . . . . . . . . . . .	Word	 0000	  DATAS	
+R  . . . . . . . . . . . . . . .	L Near	 005C	  CODES	
+SPACE  . . . . . . . . . . . . .	Byte	 0008	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+S  . . . . . . . . . . . . . . .	L Near	 0065	  CODES	
+T  . . . . . . . . . . . . . . .	L Near	 008F	  CODES	
+
+	   0 Warnings
+	   0 Errors

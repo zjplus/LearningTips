@@ -1,0 +1,148 @@
+Microsoft (R) Macro Assembler Version 6.11		    12/29/13 23:07:57
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS  SEGMENT;数据段
+ 0000 50 6C 65 61 73 65		     STRING1  DB  'Please input a number:','$'
+       20 69 6E 70 75 74
+       20 61 20 6E 75 6D
+       62 65 72 3A 24
+ 0017 54 68 65 20 6E 75		     STRING2  DB  'The number of negative numbers is:','$'
+       6D 62 65 72 20 6F
+       66 20 6E 65 67 61
+       74 69 76 65 20 6E
+       75 6D 62 65 72 73
+       20 69 73 3A 24
+ 003A 54 68 65 20 73 75		     STRING3  DB  'The sum of positive numbers is:','$'
+       6D 20 6F 66 20 70
+       6F 73 69 74 69 76
+       65 20 6E 75 6D 62
+       65 72 73 20 69 73
+       3A 24
+ 005A 00			     COUNT DB 0;记录负数个数
+ 005B 00			     SUM DB 0;记录输入正数和
+ 005C 0A 0D 24			     CRLF DB 0AH,0DH,'$'
+ 005F				DATAS  ENDS
+
+ 0000				STACKS SEGMENT
+ 0000				STACKS ENDS
+
+ 0000				CODES  SEGMENT
+				     ASSUME    CS:CODES, DS:DATAS, SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		     MOV  AX,DATAS
+ 0003  8E D8			     MOV  DS,AX
+				     
+				     ;循环十次输入
+ 0005  B9 000A			     MOV CX,10
+ 0008				LOOPS:
+ 0008  BA 0000 R		     MOV  DX,OFFSET STRING1
+ 000B  B4 09			     MOV  AH,09H
+ 000D  CD 21			     INT  21H
+ 000F  EB 17			     JMP  INPUT
+ 0011				ADDCOUNT:;输入负号转到这里，使COUNT+1，再输入一个数
+ 0011  FE 06 005A R		     INC  COUNT
+ 0015  B4 01			     MOV  AH,01H
+ 0017  CD 21			     INT  21H
+ 0019  BA 005C R		     MOV  DX,OFFSET CRLF
+ 001C  B4 09			     MOV  AH,09H
+ 001E  CD 21			     INT  21H
+ 0020  49			     DEC  CX
+ 0021  83 F9 00			     CMP  CX,0
+ 0024  74 19			     JZ   ENDINPUT
+ 0026  EB E0			     JMP  LOOPS
+ 0028				INPUT: 
+				     ;输入字符  
+ 0028  B4 01			     MOV  AH,01H
+ 002A  CD 21			     INT  21H
+ 002C  3C 2D			     CMP  AL,2DH;检测输入是否为负号
+ 002E  74 E1				 JZ   ADDCOUNT;符号则转到ADDCOUNT
+					 
+ 0030  2C 30				 SUB  AL,30H
+ 0032  00 06 005B R			 ADD  SUM,AL
+ 0036  BA 005C R		     MOV  DX,OFFSET CRLF
+ 0039  B4 09			     MOV  AH,09H
+ 003B  CD 21			     INT  21H
+ 003D  E2 C9			    LOOP LOOPS
+ 003F				ENDINPUT:    
+				     ;显示负数个数
+ 003F  BA 0017 R		     MOV  DX,OFFSET STRING2
+ 0042  B4 09			     MOV  AH,09H
+ 0044  CD 21			     INT  21H
+ 0046  8A 16 005A R		     MOV  DL,COUNT
+ 004A  80 C2 30			     ADD  DL,30H
+ 004D  B4 02			     MOV  AH,02H
+ 004F  CD 21			     INT  21H
+ 0051  BA 005C R		     MOV  DX,OFFSET CRLF
+ 0054  B4 09			     MOV  AH,09H
+ 0056  CD 21			     INT  21H
+				     
+				     ;显示正数之和
+ 0058  BA 003A R		     MOV  DX,OFFSET STRING3
+ 005B  B4 09			     MOV  AH,09H
+ 005D  CD 21			     INT  21H
+ 005F  80 3E 005B R 0A		     CMP  SUM,10
+ 0064  78 1F			     JS   DIS1;如果SUM小于10，转到DIS1
+				     
+				     ;结果为两位数的显示
+ 0066  A0 005B R		     MOV  AL,SUM
+ 0069  B4 00			     MOV  AH,0
+ 006B  B3 0A			     MOV  BL,10
+ 006D  F6 F3			     DIV  BL;sum除以10，余数为个位，在AH，商为十位，在AL
+ 006F  8A FC			     MOV  BH,AH;余数存到BH
+				     
+ 0071  8A D0			     MOV  DL,AL;输出十位数
+ 0073  80 C2 30			     ADD  DL,30H
+ 0076  B4 02			     MOV  AH,02H
+ 0078  CD 21			     INT  21H
+ 007A  8A D7			     MOV  DL,BH;输出个位数
+ 007C  80 C2 30			     ADD  DL,30H
+ 007F  B4 02			     MOV  AH,02H
+ 0081  CD 21			     INT  21H
+				     
+ 0083  EB 0B			     JMP OVER
+ 0085				DIS1:;结果为一位数的显示      
+ 0085  8A 16 005B R		     MOV  DL,SUM
+ 0089  80 C2 30			     ADD  DL,30H
+ 008C  B4 02			     MOV  AH,02H
+ 008E  CD 21			     INT  21H
+ 0090				OVER:
+ 0090  B4 4C			     MOV  AH,4CH
+ 0092  CD 21			     INT  21H
+ 0094				CODES  ENDS
+				    END   START
+Microsoft (R) Macro Assembler Version 6.11		    12/29/13 23:07:57
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0094	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 005F	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+ADDCOUNT . . . . . . . . . . . .	L Near	 0011	  CODES	
+COUNT  . . . . . . . . . . . . .	Byte	 005A	  DATAS	
+CRLF . . . . . . . . . . . . . .	Byte	 005C	  DATAS	
+DIS1 . . . . . . . . . . . . . .	L Near	 0085	  CODES	
+ENDINPUT . . . . . . . . . . . .	L Near	 003F	  CODES	
+INPUT  . . . . . . . . . . . . .	L Near	 0028	  CODES	
+LOOPS  . . . . . . . . . . . . .	L Near	 0008	  CODES	
+OVER . . . . . . . . . . . . . .	L Near	 0090	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STRING1  . . . . . . . . . . . .	Byte	 0000	  DATAS	
+STRING2  . . . . . . . . . . . .	Byte	 0017	  DATAS	
+STRING3  . . . . . . . . . . . .	Byte	 003A	  DATAS	
+SUM  . . . . . . . . . . . . . .	Byte	 005B	  DATAS	
+
+	   0 Warnings
+	   0 Errors

@@ -1,0 +1,100 @@
+Microsoft (R) Macro Assembler Version 6.11		    01/12/14 19:24:20
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+ 0000 4B 53 41 44 4B 48			STR1 DB 'KSADKH*'
+       2A
+ 0007  0032 [				STR2 DB 50 DUP(0),'$'
+        00
+       ] 24
+ 003A 50 6C 65 61 73 65			INPUT DB 'Please input a string:$'
+       20 69 6E 70 75 74
+       20 61 20 73 74 72
+       69 6E 67 3A 24
+ 0051 54 68 65 20 6E 65			NEW DB 'The new string is:$'
+       77 20 73 74 72 69
+       6E 67 20 69 73 3A
+       24
+ 0064 54 68 65 20 6C 65			LENTH DB 'The lenth of the string is:$'
+       6E 74 68 20 6F 66
+       20 74 68 65 20 73
+       74 72 69 6E 67 20
+       69 73 3A 24
+ 0080 0A 0D 24				CRLF DB 0AH,0DH,'$'
+ 0083				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+ 0000  0064 [				DB 100 DUP(0)
+        00
+       ]
+ 0064				STACKS ENDS
+
+ 0000				CODES SEGMENT
+					ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 0000				MOV AX,0
+ 0003  BB 0000				MOV BX,0
+ 0006				L:	
+ 0006  8D 3E 0007 R			LEA DI,STR2
+ 000A  8A 07				MOV AL,[BX]			    ;将STR1中的字符串转移到STR2中
+ 000C  88 01				MOV [BX+DI],AL		    ;BX记载的是STR1中字符串的长度
+ 000E  3C 2A				CMP AL,2AH
+ 0010  74 03				JZ L1
+ 0012  43				INC BX
+ 0013  EB F1				JMP L
+
+					;输入字符串
+ 0015  B4 01			L1:	MOV AH,01H
+ 0017  CD 21				INT 21H
+ 0019  3C 0D				CMP AL,0DH
+ 001B  74 05				JZ L2
+ 001D  B4 00				MOV AH,0
+ 001F  50				PUSH AX					;依次将输入的字母入栈
+ 0020  EB F3				JMP L1
+
+ 0022  58			L2:	POP AX
+ 0023  88 01				MOV [BX+DI],AL
+ 0025  43				INC BX
+ 0026  EB FA				JMP L2
+
+ 0028  BA 0007 R			MOV DX,OFFSET STR2
+ 002B  B4 09				MOV AH,09H
+ 002D  CD 21				INT 21H
+					
+ 002F  B4 4C				MOV AH,4CH
+ 0031  CD 21				INT 21H
+ 0033				CODES ENDS 
+				END START
+Microsoft (R) Macro Assembler Version 6.11		    01/12/14 19:24:20
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0033	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0083	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0064	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+CRLF . . . . . . . . . . . . . .	Byte	 0080	  DATAS	
+INPUT  . . . . . . . . . . . . .	Byte	 003A	  DATAS	
+L1 . . . . . . . . . . . . . . .	L Near	 0015	  CODES	
+L2 . . . . . . . . . . . . . . .	L Near	 0022	  CODES	
+LENTH  . . . . . . . . . . . . .	Byte	 0064	  DATAS	
+L  . . . . . . . . . . . . . . .	L Near	 0006	  CODES	
+NEW  . . . . . . . . . . . . . .	Byte	 0051	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STR1 . . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+STR2 . . . . . . . . . . . . . .	Byte	 0007	  DATAS	
+
+	   0 Warnings
+	   0 Errors

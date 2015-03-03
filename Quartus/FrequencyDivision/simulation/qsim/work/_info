@@ -1,0 +1,85 @@
+m255
+K3
+13
+cModel Technology
+Z0 dE:\Code\Quartus\FrequencyDivision\simulation\qsim
+vFrequencyDivision097
+Z1 I3jd0WCzkl8o2meAC<`]Jf3
+Z2 VUQ;m5UY44=2703I@LZIU32
+Z3 dE:\Code\Quartus\FrequencyDivision\simulation\qsim
+Z4 w1418905834
+Z5 8FrequencyDivision.vo
+Z6 FFrequencyDivision.vo
+L0 32
+Z7 OV;L;10.1e;51
+r1
+31
+Z8 !s90 -work|work|FrequencyDivision.vo|
+Z9 o-work work -O0
+Z10 n@frequency@division097
+!i10b 1
+Z11 !s100 baiK=Em2eoB?l^SXIz01]3
+!s85 0
+Z12 !s108 1418905835.150000
+Z13 !s107 FrequencyDivision.vo|
+!s101 -O0
+vFrequencyDivision097_vlg_check_tst
+!i10b 1
+Z14 !s100 Nc5W42hZfQT1DNW=UP8o_0
+Z15 I`^5E2E9VCzBnlUebTQXJ>1
+Z16 VKV6K;dFhU1z0LgK3FVLfj3
+R3
+Z17 w1418905832
+Z18 8Waveform.vwf.vt
+Z19 FWaveform.vwf.vt
+L0 60
+R7
+r1
+!s85 0
+31
+Z20 !s108 1418905835.978000
+Z21 !s107 Waveform.vwf.vt|
+Z22 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R9
+Z23 n@frequency@division097_vlg_check_tst
+vFrequencyDivision097_vlg_sample_tst
+!i10b 1
+Z24 !s100 308<VbREYONSo1bk_0PEQ0
+Z25 I;eYmMMkb8cGH0V46TEFZd2
+Z26 VOhZl>an0YoBU]G_0@ZI6m2
+R3
+R17
+R18
+R19
+L0 30
+R7
+r1
+!s85 0
+31
+R20
+R21
+R22
+!s101 -O0
+R9
+Z27 n@frequency@division097_vlg_sample_tst
+vFrequencyDivision097_vlg_vec_tst
+!i10b 1
+Z28 !s100 M74B45GzMlMF:m9X0:l7_3
+Z29 I<fj]6:jGW>jfe6BKWEGTe1
+Z30 V70>QdRMIYFzM^8ZRSc1R]2
+R3
+R17
+R18
+R19
+Z31 L0 176
+R7
+r1
+!s85 0
+31
+R20
+R21
+R22
+!s101 -O0
+R9
+Z32 n@frequency@division097_vlg_vec_tst

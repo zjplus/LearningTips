@@ -1,0 +1,81 @@
+Microsoft (R) Macro Assembler Version 6.11		    01/12/14 16:15:35
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+ 0000  0064 [				MEM DW 100 DUP(?)
+        0000
+       ]
+ 00C8				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+ 0000  0008 [				DB 8 DUP(0)
+        00
+       ]
+ 0008				STACKS ENDS
+
+ 0000				CODES SEGMENT
+					ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R			MOV AX,DATAS
+ 0003  8E D8				MOV DS,AX
+					
+ 0005				BEGIN:
+ 0005  BE 00C6				MOV SI,198
+ 0008  BB FFFE				MOV BX,-2
+ 000B  B9 0064				MOV CX,100
+ 000E  83 C3 02			L:  ADD BX,2
+ 0011  83 BF 0000 R 00			CMP MEM[BX],0
+ 0016  74 04				JZ ZERO
+ 0018  E2 F4				LOOP L
+ 001A  EB 18				JMP OVER
+					
+ 001C				ZERO:
+ 001C  8B FB				MOV DI,BX
+ 001E  8B 45 02				MOV AX,[DI+2]
+ 0021  89 05				MOV [DI],AX
+ 0023  83 C7 02				ADD DI,2
+ 0026  81 FF 00C8			CMP DI,200
+ 002A  74 02				JZ L1
+ 002C  EB EE				JMP ZERO
+					
+ 002E  C7 04 0000		L1: MOV WORD PTR [SI],0
+ 0032  EB D1				JMP BEGIN
+
+ 0034				OVER:	
+ 0034  BA 0000 R			MOV DX,OFFSET MEM
+ 0037  B4 09				MOV AH,09H
+ 0039  CD 21				INT 21H
+ 003B  B4 4C				MOV AH,4CH
+ 003D  CD 21				INT 21H
+ 003F				CODES ENDS
+				END START
+Microsoft (R) Macro Assembler Version 6.11		    01/12/14 16:15:35
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 003F	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 00C8	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0008	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+BEGIN  . . . . . . . . . . . . .	L Near	 0005	  CODES	
+L1 . . . . . . . . . . . . . . .	L Near	 002E	  CODES	
+L  . . . . . . . . . . . . . . .	L Near	 000E	  CODES	
+MEM  . . . . . . . . . . . . . .	Word	 0000	  DATAS	
+OVER . . . . . . . . . . . . . .	L Near	 0034	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+ZERO . . . . . . . . . . . . . .	L Near	 001C	  CODES	
+
+	   0 Warnings
+	   0 Errors

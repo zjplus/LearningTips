@@ -1,0 +1,166 @@
+Microsoft (R) Macro Assembler Version 6.11		    12/17/13 20:47:21
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码
+ 0000 00			    CAR DB 0
+ 0001 20 20 4F 20 20 20		    CAR1 DB '  O     O$'
+       20 20 4F 24
+ 000B				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+					
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ 0005  B6 00			B:		MOV DH,0		;行
+ 0007  B2 00					MOV DL,0		;列
+ 0009  B7 00					MOV BH,0
+ 000B  B4 02					MOV AH,02H
+ 000D  CD 10					INT 10H
+				;主程序体
+ 000F				MAIN 	PROC FAR
+ 000F  E8 0013			    	CALL SHOW
+ 0012  E8 004A			    	CALL DELAY
+ 0015  E8 0057			    	CALL ERASER
+ 0018  E8 006B			    	CALL MOVE
+ 001B  80 FE 17			    	CMP DH,23
+ 001E  74 02			    	JZ S
+ 0020  EB ED			    	JMP MAIN
+ 0022  EB E1			s:		JMP B	
+ 0024  CB			    	RET
+ 0025				MAIN 	ENDP
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;显示子程序
+ 0025				SHOW 	PROC NEAR
+				;显示第一行
+ 0025  52					PUSH DX
+ 0026  B4 09					MOV	AH,9
+ 0028  8A 04					MOV	AL,[SI]		;写入字符的ASCⅡ码
+ 002A  B7 00			        MOV	BH,0		;页号
+ 002C  B3 DA			        MOV	BL,0DAH		;字符属性
+ 002E  B9 0009			        MOV	CX,9		;重复次数
+ 0031  CD 10			        INT	10H
+ 0033  5A					POP DX
+				;显示第二行		
+ 0034  52					PUSH DX
+ 0035  80 C6 01					ADD DH,1		;行
+ 0038  B7 00					MOV BH,0
+ 003A  B4 02					MOV AH,02H
+ 003C  CD 10					INT 10H
+ 003E  B4 09					MOV	AH,9
+ 0040  8A 04					MOV	AL,[SI]		;写入字符的ASCⅡ码
+ 0042  B7 00			        MOV	BH,0		;页号
+ 0044  B3 DA			        MOV	BL,0DAH		;字符属性
+ 0046  B9 000A			        MOV	CX,10		;重复次数
+ 0049  CD 10			        INT	10H
+ 004B  5A					POP DX
+				;显示第三行		
+ 004C  52					PUSH DX
+ 004D  80 C6 02					ADD DH,2		;行
+ 0050  B7 00					MOV BH,0
+ 0052  B4 02					MOV AH,02H
+ 0054  CD 10					INT 10H
+ 0056  BA 0001 R				MOV DX,OFFSET CAR1
+ 0059  B4 09					MOV AH,09H
+ 005B  CD 21					INT 21H
+ 005D  5A					POP DX
+ 005E  C3			    	RET
+ 005F				SHOW	ENDP
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;延迟子程序
+ 005F				DELAY	PROC NEAR
+ 005F  51					PUSH CX
+ 0060  52			    	PUSH DX
+ 0061  BA 01F4			 		MOV DX,500
+ 0064  B9 07D0			D1: 	MOV CX,2000
+ 0067  E2 FE			D2:		LOOP D2 
+ 0069  4A					DEC DX
+ 006A  75 F8					JNZ D1 
+ 006C  5A					POP DX
+ 006D  59					POP CX 
+ 006E  C3					RET
+ 006F				DELAY	ENDP
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;擦除子程序
+ 006F				ERASER 	PROC NEAR
+ 006F  53					PUSH BX
+ 0070  51					PUSH CX
+ 0071  52					PUSH DX
+ 0072  B4 06					MOV AH,6 ;屏幕上卷功能
+ 0074  B0 00					MOV AL,0
+ 0076  B5 00					MOV CH,0 ;左上角行号
+ 0078  B1 00					MOV CL,0 ;左上角列号
+ 007A  B6 18			 		MOV DH,24 ;右下角行号
+ 007C  B2 4F					MOV DL,79 ;右下角列号
+ 007E  B7 07					MOV BH,7 ;卷入行属性
+ 0080  CD 10					INT 10H ;调用显示属性
+ 0082  5A					POP DX ;恢复寄存器
+ 0083  59					POP CX
+ 0084  5B					POP BX
+ 0085  C3					RET
+ 0086				ERASER	ENDP
+				;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				;移动子程序
+ 0086				MOVE 	PROC NEAR
+ 0086  FE C6					INC DH
+ 0088  80 C2 03					ADD DL,3
+ 008B  B7 00					MOV BH,0
+ 008D  B4 02					MOV AH,02H
+ 008F  CD 10					INT 10H
+ 0091  C3					RET
+ 0092				MOVE ENDP
+
+ 0092				CODES ENDS
+				    END START
+
+
+
+Microsoft (R) Macro Assembler Version 6.11		    12/17/13 20:47:21
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0092	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 000B	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+DELAY  . . . . . . . . . . . . .	P Near	 005F	  CODES	Length= 0010 Public
+  D1 . . . . . . . . . . . . . .	L Near	 0064	  CODES	
+  D2 . . . . . . . . . . . . . .	L Near	 0067	  CODES	
+ERASER . . . . . . . . . . . . .	P Near	 006F	  CODES	Length= 0017 Public
+MAIN . . . . . . . . . . . . . .	P Far	 000F	  CODES	Length= 0016 Public
+  s  . . . . . . . . . . . . . .	L Near	 0022	  CODES	
+MOVE . . . . . . . . . . . . . .	P Near	 0086	  CODES	Length= 000C Public
+SHOW . . . . . . . . . . . . . .	P Near	 0025	  CODES	Length= 003A Public
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+B  . . . . . . . . . . . . . . .	L Near	 0005	  CODES	
+CAR1 . . . . . . . . . . . . . .	Byte	 0001	  DATAS	
+CAR  . . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors

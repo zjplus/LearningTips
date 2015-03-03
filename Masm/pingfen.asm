@@ -1,0 +1,196 @@
+DATAS SEGMENT
+    ;此处输入数据段代码
+    GRADE DB 10 DUP(0),'$'
+    INPUT DB 'Please input 10 score<0 to 9>:$'
+    CRLF DB 0AH,0DH,'$'
+    OUTPUT1 DB 'The highest score is student$'
+    OUTPUT2 DB 'The lowest score is student$'
+    STUDENT1 DB 0,'$'
+    STUDENT2 DB 0,'$'
+    STUDENT3 DB 0,'$'
+    STUDENT4 DB 0,'$'
+    STUDENT5 DB 0,'$'
+      
+DATAS ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+    DB 8 DUP(0)
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    ;此处输入代码段代码
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	MOV CX,5
+LOOPS:
+	PUSH CX
+;依次输入十个数存在GRADE中
+	MOV DX,OFFSET INPUT
+	MOV AH,09H
+	INT 21H
+	
+	MOV AX,0
+	MOV BX,0
+	MOV CX,10
+S:	MOV AH,01H
+	INT 21H
+	SUB AL,30H
+	MOV [BX],AL
+	INC BX
+	LOOP S
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+;将十个数冒泡排序后放在GRADE中
+	MOV CX,10
+S1: MOV DI,CX
+	MOV CX,9
+	MOV BX,0
+S2:
+	MOV AL,GRADE[BX]
+	CMP AL,GRADE[BX+1]
+	JGE CONTINUE
+	XCHG AL,GRADE[BX+1]
+	MOV GRADE[BX],AL
+CONTINUE:
+	INC BX
+	LOOP S2
+	MOV CX,DI
+	LOOP S1
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+;将输入的数从第2个加到第7个的和放进STUDENT中
+	MOV AL,0
+	MOV CX,6
+HE: MOV SI,2
+	ADD AL,GRADE[SI]
+	INC SI 
+	LOOP HE
+	MOV BX,0
+	POP CX
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+;比较cx的值，依次放入student*中
+	CMP CX,5
+	JZ L1
+	CMP CX,4
+	JZ L2
+	CMP CX,3
+	JZ L3
+	CMP CX,2
+	JZ L4
+	CMP CX,1
+	JZ L5
+L1:	MOV STUDENT1[BX],AL
+	JMP NEXT
+L2:	MOV STUDENT2[BX],AL
+	JMP NEXT
+L3:	MOV STUDENT3[BX],AL
+	JMP NEXT
+L4:	MOV STUDENT4[BX],AL
+	JMP NEXT
+L5:	MOV STUDENT5[BX],AL	
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+;输出STUDENT*[BX]里的数字
+NEXT:
+	MOV AH,0
+	MOV BL,10
+	DIV BL			;余数放在AH中，商在AL中
+	MOV BH,AH		;余数转到BH中
+	
+	MOV DX,OFFSET CRLF
+	MOV AH,09H
+	INT 21H
+	
+	MOV DL,AL		;输出十位
+	ADD DL,30H
+	MOV AH,02H
+	INT 21H
+	MOV DL,BH		;输出个位
+	ADD DL,30H
+	MOV AH,02H
+	INT 21H
+	
+	MOV DX,OFFSET CRLF
+	MOV AH,09H
+	INT 21H
+	
+	DEC CX
+	CMP CX,0
+	JG LOOPS
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+;比较输出最大值
+	LEA BX,STUDENT1
+	MOV DL,[BX]
+	MOV SI,0
+	MOV CX,4
+MAX:CMP DL,[BX+SI+2]
+	JNL P
+	MOV DL,[BX+SI+2]
+P:	
+	ADD SI,2
+	LOOP MAX
+	MOV CX,4
+	MOV SI,0
+P1:	CMP DL,[BX+SI]
+	JZ P2
+	ADD SI,2
+	LOOP P1	
+P2:	MOV AH,0
+	MOV AX,SI
+	MOV BL,2
+	DIV BL
+	MOV DL,AL
+	INC DL
+	PUSH DX
+	
+	MOV DX,OFFSET OUTPUT1
+	MOV AH,09H
+	INT 21H
+	POP DX
+	ADD DL,30H
+	MOV AH,02H
+	INT 21H
+	
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	MOV DX,OFFSET CRLF
+	MOV AH,09H
+	INT 21H
+;比较输出最小值
+	LEA BX,STUDENT1
+	MOV DL,[BX]
+	MOV SI,0
+	MOV CX,4
+MIN:CMP DL,[BX+SI+2]
+	JL Q
+	MOV DL,[BX+SI+2]
+Q:	
+	ADD SI,2
+	LOOP MIN
+	
+	MOV CX,4
+	MOV SI,0
+Q1:	CMP DL,[BX+SI]
+	JZ Q2
+	ADD SI,2
+	LOOP Q1	
+Q2:	MOV AH,0
+	MOV AX,SI
+	MOV BL,2
+	DIV BL
+	MOV DL,AL
+	INC DL
+	PUSH DX
+	
+	MOV DX,OFFSET OUTPUT2
+	MOV AH,09H
+	INT 21H
+	POP DX
+	ADD DL,30H
+	MOV AH,02H
+	INT 21H
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+    END START

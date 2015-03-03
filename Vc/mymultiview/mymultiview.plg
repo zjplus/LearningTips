@@ -1,0 +1,47 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: mymultiview - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\ihueiJ\AppData\Local\Temp\RSP2920.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/mymultiview.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Code\Vc\mymultiview\PositionView.cpp"
+]
+Creating command line "cl.exe @C:\Users\ihueiJ\AppData\Local\Temp\RSP2920.tmp" 
+<h3>Output Window</h3>
+Compiling...
+PositionView.cpp
+E:\Code\Vc\mymultiview\PositionView.cpp(42) : error C2065: 'COblist' : undeclared identifier
+E:\Code\Vc\mymultiview\PositionView.cpp(42) : error C2065: 'pList' : undeclared identifier
+E:\Code\Vc\mymultiview\PositionView.cpp(42) : error C2059: syntax error : ')'
+E:\Code\Vc\mymultiview\PositionView.cpp(43) : error C2227: left of '->GetHeadPosition' must point to class/struct/union
+E:\Code\Vc\mymultiview\PositionView.cpp(44) : error C2065: 'CSTRING' : undeclared identifier
+E:\Code\Vc\mymultiview\PositionView.cpp(44) : error C2146: syntax error : missing ';' before identifier 'zuobiao'
+E:\Code\Vc\mymultiview\PositionView.cpp(44) : error C2065: 'zuobiao' : undeclared identifier
+E:\Code\Vc\mymultiview\PositionView.cpp(49) : error C2065: 'Cline' : undeclared identifier
+E:\Code\Vc\mymultiview\PositionView.cpp(49) : error C2065: 'pLine' : undeclared identifier
+E:\Code\Vc\mymultiview\PositionView.cpp(49) : error C2227: left of '->GetNext' must point to class/struct/union
+E:\Code\Vc\mymultiview\PositionView.cpp(49) : error C2106: '=' : left operand must be l-value
+E:\Code\Vc\mymultiview\PositionView.cpp(50) : error C2228: left of '.Format' must have class/struct/union type
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2227: left of '->m_Start' must point to class/struct/union
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2228: left of '.x' must have class/struct/union type
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2227: left of '->m_Start' must point to class/struct/union
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2228: left of '.y' must have class/struct/union type
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2227: left of '->m_End' must point to class/struct/union
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2228: left of '.x' must have class/struct/union type
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2227: left of '->m_End' must point to class/struct/union
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2228: left of '.y' must have class/struct/union type
+E:\Code\Vc\mymultiview\PositionView.cpp(51) : error C2059: syntax error : ')'
+Ö´ÐÐ cl.exe Ê±³ö´í.
+
+
+
+<h3>Results</h3>
+PositionView.obj - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

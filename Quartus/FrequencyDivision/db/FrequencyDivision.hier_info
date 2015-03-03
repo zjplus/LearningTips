@@ -1,0 +1,9 @@
+|FrequencyDivision097
+clk => QI[0].CLK
+clk => QI[1].CLK
+clk => QI[2].CLK
+clk => QI[3].CLK
+Q1 <> Q1
+Q2 <= Equal1.DB_MAX_OUTPUT_PORT_TYPE
+
+

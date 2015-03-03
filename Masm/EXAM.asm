@@ -1,0 +1,49 @@
+DATAS SEGMENT
+	STR1 DB 'KSADKH*'
+	STR2 DB 50 DUP(0),'$'
+	INPUT DB 'Please input a string:$'
+	NEW DB 'The new string is:$'
+	LENTH DB 'The lenth of the string is:$'
+	CRLF DB 0AH,0DH,'$'
+DATAS ENDS
+
+STACKS SEGMENT
+	DB 100 DUP(0)
+STACKS ENDS
+
+CODES SEGMENT
+	ASSUME CS:CODES,DS:DATAS,SS:STACKS
+START:
+	MOV AX,0
+	MOV BX,0
+L:	
+	LEA DI,STR2
+	MOV AL,[BX]			    ;将STR1中的字符串转移到STR2中
+	MOV [BX+DI],AL		    ;BX记载的是STR1中字符串的长度
+	CMP AL,2AH
+	JZ L1
+	INC BX
+	JMP L
+
+	;输入字符串
+L1:	MOV AH,01H
+	INT 21H
+	CMP AL,0DH
+	JZ L2
+	MOV AH,0
+	PUSH AX					;依次将输入的字母入栈
+	JMP L1
+
+L2:	POP AX
+	MOV [BX+DI],AL
+	INC BX
+	JMP L2
+
+	MOV DX,OFFSET STR2
+	MOV AH,09H
+	INT 21H
+	
+	MOV AH,4CH
+	INT 21H
+CODES ENDS 
+END START

@@ -1,0 +1,392 @@
+$comment
+	File created using the following command:
+		vcd file counter097.msim.vcd -direction
+$end
+$date
+	Thu Dec 18 20:04:00 2014
+$end
+$version
+	ModelSim Version 10.1e
+$end
+$timescale
+	1ps
+$end
+$scope module counter097_vlg_vec_tst $end
+$var reg 1 ! clk $end
+$var reg 1 " reset $end
+$var reg 1 # set $end
+$var wire 1 $ C $end
+$var wire 1 % Q [3] $end
+$var wire 1 & Q [2] $end
+$var wire 1 ' Q [1] $end
+$var wire 1 ( Q [0] $end
+$var wire 1 ) sampler $end
+$scope module i1 $end
+$var wire 1 * gnd $end
+$var wire 1 + vcc $end
+$var wire 1 , unknown $end
+$var tri1 1 - devclrn $end
+$var tri1 1 . devpor $end
+$var tri1 1 / devoe $end
+$var wire 1 0 Q[0]~output_o $end
+$var wire 1 1 Q[1]~output_o $end
+$var wire 1 2 Q[2]~output_o $end
+$var wire 1 3 Q[3]~output_o $end
+$var wire 1 4 C~output_o $end
+$var wire 1 5 clk~input_o $end
+$var wire 1 6 clk~inputclkctrl_outclk $end
+$var wire 1 7 set~input_o $end
+$var wire 1 8 QI[0]~0_combout $end
+$var wire 1 9 reset~input_o $end
+$var wire 1 : reset~inputclkctrl_outclk $end
+$var wire 1 ; QI[1]~1_combout $end
+$var wire 1 < QI[2]~2_combout $end
+$var wire 1 = QI[3]~3_combout $end
+$var wire 1 > QI[3]~4_combout $end
+$var wire 1 ? Equal0~0_combout $end
+$var wire 1 @ QI [3] $end
+$var wire 1 A QI [2] $end
+$var wire 1 B QI [1] $end
+$var wire 1 C QI [0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0!
+0"
+1#
+0$
+0(
+0'
+0&
+0%
+x)
+0*
+1+
+x,
+1-
+1.
+1/
+00
+01
+02
+03
+04
+05
+06
+17
+18
+09
+0:
+0;
+0<
+1=
+0>
+0?
+0C
+0B
+0A
+0@
+$end
+#30000
+1!
+15
+16
+0)
+1C
+1;
+08
+10
+1(
+#60000
+0!
+05
+06
+1)
+#90000
+1!
+15
+16
+0)
+1B
+0C
+18
+11
+00
+1'
+0(
+#120000
+0!
+05
+06
+1)
+#150000
+1!
+15
+16
+0)
+1C
+1<
+0;
+08
+10
+1(
+#180000
+0!
+05
+06
+1)
+#210000
+1!
+15
+16
+0)
+1A
+0B
+0C
+0=
+18
+12
+01
+00
+1&
+0'
+0(
+#240000
+0!
+05
+06
+1)
+#270000
+1!
+15
+16
+0)
+1C
+1;
+08
+10
+1(
+#300000
+0!
+05
+06
+1)
+#330000
+1!
+15
+16
+0)
+1B
+0C
+18
+11
+00
+1'
+0(
+#360000
+0!
+05
+06
+1)
+#390000
+1!
+15
+16
+0)
+1C
+1>
+0<
+0;
+08
+10
+1(
+#420000
+0!
+05
+06
+1)
+#450000
+1!
+15
+16
+0)
+1@
+0A
+0B
+0C
+1=
+18
+13
+02
+01
+00
+1%
+0&
+0'
+0(
+#480000
+0!
+05
+06
+1)
+#510000
+1!
+15
+16
+0)
+1C
+1;
+08
+10
+1(
+#540000
+0!
+05
+06
+1)
+#570000
+1!
+15
+16
+0)
+1B
+0C
+18
+11
+00
+1'
+0(
+#600000
+0!
+05
+06
+1)
+#630000
+1!
+15
+16
+0)
+1C
+1<
+0;
+08
+10
+1(
+#660000
+0!
+05
+06
+1)
+#690000
+1!
+15
+16
+0)
+1A
+0B
+0C
+0=
+18
+12
+01
+00
+1&
+0'
+0(
+#720000
+0!
+05
+06
+1)
+#750000
+1!
+15
+16
+0)
+1C
+1;
+08
+10
+1(
+#780000
+0!
+05
+06
+1)
+#810000
+1!
+15
+16
+0)
+1B
+0C
+18
+11
+00
+1'
+0(
+#840000
+0!
+05
+06
+1)
+#870000
+1!
+15
+16
+0)
+1C
+0>
+0<
+0;
+08
+10
+1(
+1?
+14
+1$
+#900000
+0!
+05
+06
+1)
+#930000
+1!
+15
+16
+0)
+0@
+0A
+0B
+0C
+1=
+18
+03
+02
+01
+00
+0%
+0&
+0'
+0(
+0?
+04
+0$
+#960000
+0!
+05
+06
+1)
+#990000
+1!
+15
+16
+0)
+1C
+1;
+08
+10
+1(
+#1000000

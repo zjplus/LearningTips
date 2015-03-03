@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: mylist - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/mylist.res" /d "_DEBUG" /d "_AFXDLL" "E:\Code\Vc\mylist\mylist.rc"" 
+Creating command line "link.exe /nologo /subsystem:windows /incremental:yes /pdb:"Debug/mylist.pdb" /debug /machine:I386 /out:"Debug/mylist.exe" /pdbtype:sept  .\Debug\mylist.obj .\Debug\mylistDlg.obj .\Debug\StdAfx.obj .\Debug\mylist.res "
+<h3>Output Window</h3>
+Compiling resources...
+Linking...
+
+
+
+<h3>Results</h3>
+mylist.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
