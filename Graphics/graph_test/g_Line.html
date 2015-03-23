@@ -19,19 +19,40 @@
 			//画板3显示坐标
 			showCoord("canvas3","coordinates3");
 			
-/*			//点对象
-			var point=new Object();
-			point.x=20;
-			point.y=20
+			
+			//canvas部分
 			var canvas = document.getElementById('canvas1');
-			if (canvas.getContext) {
+			
+			//起始点坐标
+			var beginPoint=new Object();
+			canvas.addEventListener("mousedown", function (event) {
+				beginPoint.x=event.layerX;
+				beginPoint.y=event.layerY;
+				//alert("相对坐标：(X,Y)=("+event.layerX+","+event.layerY+")");
+			});
+			
+			canvas.addEventListener("mousemove",function (event){
+			});
+			
+			//结束点坐标
+			var endPoint=new Object();
+			canvas.addEventListener("mouseup",function(event){
+				endPoint.x=event.layerX;
+				endPoint.y=event.layerY;
+				$('#absoluteCoord1').innerHTML="相对坐标：(X,Y)=("+event.layerX+","+event.layerY+")";
+				if (canvas.getContext) {
 				var ctx = canvas.getContext('2d');
 				ctx.beginPath(); // 开始路径绘制
-				drawPoint(ctx,point);
+				//drawPoint(ctx,beginPoint);
+				ctx.moveTo(beginPoint.x-15,beginPoint.y-15);
+				ctx.lineTo(endPoint.x-15,endPoint.y-15);
 				ctx.lineWidth = 1; // 设置线宽
 				ctx.strokeStyle = "#000000"; // 设置线的颜色
 				ctx.stroke(); // 进行线的着色，这时整条线才变得可见
-			}*/
+				}
+			});
+			
+			
 		});
 			
 		function cilcktab1() {
@@ -62,8 +83,8 @@
 		}
 
 		function getPos(e) {
-			var pointer = getCoord(e);
-			alert("x:" + pointer.x + ";Y:" + pointer.y);
+			//var pointer = getCoord(e);
+
 		}
 		
 		/**
@@ -74,8 +95,8 @@
 			coords1.onmousemove = function(e) {
 				var pointer = getCoord(e);
 				var coord = document.getElementById(coordinates);
-				coord.innerHTML = "X,Y=(" + pointer.x + ", " + pointer.y + ")";
-				var canvas1 = document.getElementById('canvas1');
+				coord.innerHTML = "绝对坐标：X,Y=(" + pointer.x + ", " + pointer.y + ")";
+/*				var canvas1 = document.getElementById('canvas1');
 			if (canvas1.getContext) {
 				var ctx = canvas1.getContext('2d');
 				ctx.beginPath(); // 开始路径绘制
@@ -85,7 +106,7 @@
 				ctx.lineWidth = 1; // 设置线宽
 				ctx.strokeStyle = "#000000"; // 设置线的颜色
 				ctx.stroke(); // 进行线的着色，这时整条线才变得可见
-			}
+			}*/
 			}
 		}
 		/*
@@ -136,7 +157,7 @@
 									您的浏览器不支持canvas！
 								</canvas>
 							<div class="panel-footer">
-								<h3 id="coordinates1" class="panel-title" style="height: 15px;"></h3>
+								<h3 class="panel-title" style="height: 15px;"><span id="coordinates1"></span><span id="absoluteCoord1"></span></h3>
 							</div>
 						</div>
 					</div>
