@@ -1,0 +1,61 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>插入标题</title>
+	<!-- viewport的<meta>标签，这个标签可以修改在大部分的移动设备上面的显示，为了确保适当的绘制和触屏缩放。-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script src="bootstrap/js/jquery.min.js"></script> 			
+<!--[if lt IE9]> 
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">
+	$(function(){
+		$('#draw_bord1').css("display","block");
+		$('#draw_bord2').css("display","none");
+		$('#draw_bord3').css("display","none");
+		$('#tab1').addClass("active");
+	});
+
+	function showDrowBoard1(){
+		$('#draw_bord1').css("display","block");
+		$('#draw_bord2').css("display","none");
+		$('#draw_bord3').css("display","none");
+	}
+	function showDrowBoard2(){
+		$('#draw_bord1').css("display","none");
+		$('#draw_bord2').css("display","block");
+		$('#draw_bord3').css("display","none");
+	}
+	function showDrowBoard3(){
+		$('#draw_bord1').css("display","none");
+		$('#draw_bord2').css("display","none");
+		$('#draw_bord3').css("display","block");
+	}
+</script>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-lg-4 column"></div>
+			<div class="col-lg-4 column">
+				<ul class="nav nav-tabs">
+					<li id="tab1"><a href="javascript:showDrowBoard1()">画线方法一</a></li>
+					<li id="tab2"><a href="javascript:showDrowBoard2()">画线方法二</a></li>
+					<li id="tab3"><a href="javascript:showDrowBoard3()">画线方法三</a></li>
+				</ul>
+				<div class="draw_bord1" id="draw_bord1">哈哈1</div>
+				<div class="draw_bord2" id="draw_bord2">哈哈2</div>
+				<div class="draw_bord3" id="draw_bord3">哈哈3</div>
+			</div>
+			<div class="col-lg-4 column"></div>
+		</div>
+	</div>
+	<!-- javaScript -->
+
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>实验一：画线</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.2/css/bootstrap.min.css" />
+		<script src="bootstrap-3.3.2/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bootstrap-3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<script type="text/javascript">
+		$(function() {
+			$('#tab1').addClass("active");
+			$('#drowBoard1').css("display", "block");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "none");
+			//画板1显示坐标
+			showCoord("canvas1","coordinates1");
+			//画板2显示坐标
+			showCoord("canvas2","coordinates2");
+			//画板3显示坐标
+			showCoord("canvas3","coordinates3");
+			
+/*			//点对象
+			var point=new Object();
+			point.x=20;
+			point.y=20
+			var canvas = document.getElementById('canvas1');
+			if (canvas.getContext) {
+				var ctx = canvas.getContext('2d');
+				ctx.beginPath(); // 开始路径绘制
+				drawPoint(ctx,point);
+				ctx.lineWidth = 1; // 设置线宽
+				ctx.strokeStyle = "#000000"; // 设置线的颜色
+				ctx.stroke(); // 进行线的着色，这时整条线才变得可见
+			}*/
+		});
+			
+		function cilcktab1() {
+			$('#tab1').addClass("active");
+			$('#tab2').removeClass();
+			$("#tab3").removeClass();
+			$('#drowBoard1').css("display", "block");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "none");
+		}
+
+		function cilcktab2() {
+			$('#tab1').removeClass();
+			$('#tab2').addClass("active");
+			$("#tab3").removeClass();
+			$('#drowBoard1').css("display", "none");
+			$('#drowBoard2').css("display", "block");
+			$('#drowBoard3').css("display", "none");
+		}
+
+		function cilcktab3() {
+			$('#tab1').removeClass();
+			$('#tab2').removeClass();
+			$("#tab3").addClass("active")
+			$('#drowBoard1').css("display", "none");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "block");
+		}
+
+		function getPos(e) {
+			var pointer = getCoord(e);
+			alert("x:" + pointer.x + ";Y:" + pointer.y);
+		}
+		
+		/**
+		 * 显示坐标
+		 */
+		function showCoord(panel,coordinates) {
+			var coords1 = document.getElementById(panel);
+			coords1.onmousemove = function(e) {
+				var pointer = getCoord(e);
+				var coord = document.getElementById(coordinates);
+				coord.innerHTML = "X,Y=(" + pointer.x + ", " + pointer.y + ")";
+				var canvas1 = document.getElementById('canvas1');
+			if (canvas1.getContext) {
+				var ctx = canvas1.getContext('2d');
+				ctx.beginPath(); // 开始路径绘制
+				pointer.x=pointer.x-309-15;
+				pointer.y=pointer.y-121-15;
+				drawPoint(ctx,pointer);
+				ctx.lineWidth = 1; // 设置线宽
+				ctx.strokeStyle = "#000000"; // 设置线的颜色
+				ctx.stroke(); // 进行线的着色，这时整条线才变得可见
+			}
+			}
+		}
+		/*
+		 * 获取pointer
+		 */
+		function getCoord(e) {
+			e = e || window.event;
+			var x = e.pageX || (e.clientX +
+				(document.documentElement.scrollLeft || document.body.scrollLeft));
+			var y = e.pageY || (e.clientY +
+				(document.documentElement.scrollTop || document.body.scrollTop));
+			return {
+				'x': x,
+				'y': y
+			};
+		}
+		
+		/**
+		 * 描点
+		 * 参数：坐标，context
+		 */
+		function drawPoint(ctx, point) {
+			ctx.moveTo(point.x, point.y);
+			ctx.lineTo(point.x + 1, point.y + 1);
+		}
+	</script>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<ul class="nav nav-tabs">
+						<li id="tab1"><a href="javascript:cilcktab1()">数值微分法</a>
+						</li>
+						<li id="tab2"><a href="javascript:cilcktab2()">中点画线法</a>
+						</li>
+						<li id="tab3"><a href="javascript:cilcktab3()">Bresenham画线算法</a>
+						</li>
+					</ul>
+					<br />
+					<br />
+					<div id="drowBoard1">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">数值微分法</h3>
+							</div>
+								<canvas id="canvas1" class="panel-body"  width="718" height="400" onclick="getPos(event)">
+									您的浏览器不支持canvas！
+								</canvas>
+							<div class="panel-footer">
+								<h3 id="coordinates1" class="panel-title" style="height: 15px;"></h3>
+							</div>
+						</div>
+					</div>
+					<div id="drowBoard2">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">中点画线法</h3>
+							</div>
+								<canvas id="canvas2" class="panel-body"  width="718" height="400" onclick="getPos(event)">
+									您的浏览器不支持canvas！
+								</canvas>
+							<div class="panel-footer">
+								<h3 id="coordinates2" class="panel-title" style="height: 15px;"></h3>
+							</div>
+						</div>
+					</div>
+					<div id="drowBoard3">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Bresenham画线算法</h3>
+							</div>
+								<canvas id="canvas3" class="panel-body"  width="718" height="400" onclick="getPos(event)">
+									您的浏览器不支持canvas！
+								</canvas>
+							<div class="panel-footer">
+								<h3 id="coordinates3" class="panel-title" style="height: 15px;"></h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+		</div>
+	</body>
+</html>

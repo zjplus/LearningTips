@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>实验一：画线</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.2/css/bootstrap.min.css" />
+		<script src="bootstrap-3.3.2/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bootstrap-3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<script type="text/javascript">
+		$(function() {
+			$('#tab1').addClass("active");
+			$('#drowBoard1').css("display", "block");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "none");
+			//画板1显示坐标
+			showCoord("panel1","coordinates1");
+			//画板2显示坐标
+			showCoord("panel2","coordinates2");
+			//画板3显示坐标
+			showCoord("panel3","coordinates3");
+		});
+
+		function cilcktab1() {
+			$('#tab1').addClass("active");
+			$('#tab2').removeClass();
+			$("#tab3").removeClass();
+			$('#drowBoard1').css("display", "block");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "none");
+		}
+
+		function cilcktab2() {
+			$('#tab1').removeClass();
+			$('#tab2').addClass("active");
+			$("#tab3").removeClass();
+			$('#drowBoard1').css("display", "none");
+			$('#drowBoard2').css("display", "block");
+			$('#drowBoard3').css("display", "none");
+		}
+
+		function cilcktab3() {
+			$('#tab1').removeClass();
+			$('#tab2').removeClass();
+			$("#tab3").addClass("active")
+			$('#drowBoard1').css("display", "none");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "block");
+		}
+
+		function getPos(e) {
+			var pointer = getCoord(e);
+			alert("x:" + pointer.x + ";Y:" + pointer.y);
+			var　opts=new Object();
+			opts.pw=1;//点的宽度
+　　			opts.ph=1;//点的高度， 一般与opts.pw相等
+　　			opts.color=#000000;//点的颜色
+　　			//opts.point:表示点的位置
+			opts.point[0]=pointer.x;//水平位置
+			opts.point[1]=pointer.y;//垂直位置
+			//opts.[2]为点的标签
+			drawPoint(opts);
+		}
+		
+		/**
+		 * 显示坐标
+		 */
+		function showCoord(panel,coordinates) {
+			var coords1 = document.getElementById(panel);
+			coords1.onmousemove = function(e) {
+				var pointer = getCoord(e);
+				var coord = document.getElementById(coordinates);
+				coord.innerHTML = "X,Y=(" + pointer.x + ", " + pointer.y + ")";
+			}
+		}
+		/*
+		 * 获取pointer
+		 */
+		function getCoord(e) {
+			e = e || window.event;
+			var x = e.pageX || (e.clientX +
+				(document.documentElement.scrollLeft || document.body.scrollLeft));
+			var y = e.pageY || (e.clientY +
+				(document.documentElement.scrollTop || document.body.scrollTop));
+			return {
+				'x': x,
+				'y': y
+			};
+		}
+		
+		/**
+		 * 描点
+		 */
+		function drawPoint(opts){
+    		document.write("<span id='"+opts.point[0]+""+opts.point[1]+"' style='display: inline-block; width: "+opts.pw+"px; height: "+opts.ph+"px; background-color: "+opts.color+"; position: absolute "+opts.point[0]+"px; top: "+opts.point[1]+"px;'>"+(opts.point[2]?("<div style='position: relative;'><span style='position: absolute; left: 5px; bottom: 1px; text-align: left; width: 100px;'>"+opts.point[2]+"</span></div>"):"")+"</span>");
+		}
+	</script>
+
+	<style type="text/css">
+		.pan {
+			height: 400px;
+		}
+	</style>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<ul class="nav nav-tabs">
+						<li id="tab1"><a href="javascript:cilcktab1()">数值微分法</a>
+						</li>
+						<li id="tab2"><a href="javascript:cilcktab2()">中点画线法</a>
+						</li>
+						<li id="tab3"><a href="javascript:cilcktab3()">Bresenham画线算法</a>
+						</li>
+					</ul>
+					<br />
+					<br />
+					<div id="drowBoard1">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">数值微分法</h3>
+							</div>
+							<div class="panel-body pan" id="panel1" onclick="getPos(event)">
+								画板1
+							</div>
+							<div class="panel-footer">
+								<h3 id="coordinates1" class="panel-title" style="height: 15px;"></h3>
+							</div>
+						</div>
+					</div>
+					<div id="drowBoard2">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">中点画线法</h3>
+							</div>
+							<div class="panel-body pan" id="panel2" onclick="getPos(event)">
+								画板2
+							</div>
+							<div class="panel-footer">
+								<h3 id="coordinates2" class="panel-title" style="height: 15px;"></h3>
+							</div>
+						</div>
+					</div>
+					<div id="drowBoard3">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Bresenham画线算法</h3>
+							</div>
+							<div class="panel-body pan" id="panel3" onclick="getPos(event)">
+								画板3
+							</div>
+							<div class="panel-footer">
+								<h3 id="coordinates3" class="panel-title" style="height: 15px;"></h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+		</div>
+	</body>
+</html>
