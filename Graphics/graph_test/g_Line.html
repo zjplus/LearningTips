@@ -5,6 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.2/css/bootstrap.min.css" />
 		<script src="bootstrap-3.3.2/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bootstrap-3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="drawLine.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<script type="text/javascript">
 		$(function() {
@@ -13,125 +14,16 @@
 			$('#drowBoard2').css("display", "none");
 			$('#drowBoard3').css("display", "none");
 			//画板1显示坐标
-			showCoord("canvas1","coordinates1");
+			showCoord("canvas1","absoluteCoord1");
 			//画板2显示坐标
-			showCoord("canvas2","coordinates2");
+			showCoord("canvas2","absoluteCoord2");
 			//画板3显示坐标
-			showCoord("canvas3","coordinates3");
+			showCoord("canvas3","absoluteCoord3");
 			
-			
-			//canvas部分
-			var canvas = document.getElementById('canvas1');
-			
-			//起始点坐标
-			var beginPoint=new Object();
-			canvas.addEventListener("mousedown", function (event) {
-				beginPoint.x=event.layerX;
-				beginPoint.y=event.layerY;
-				//alert("相对坐标：(X,Y)=("+event.layerX+","+event.layerY+")");
-			});
-			
-			canvas.addEventListener("mousemove",function (event){
-			});
-			
-			//结束点坐标
-			var endPoint=new Object();
-			canvas.addEventListener("mouseup",function(event){
-				endPoint.x=event.layerX;
-				endPoint.y=event.layerY;
-				$('#absoluteCoord1').innerHTML="相对坐标：(X,Y)=("+event.layerX+","+event.layerY+")";
-				if (canvas.getContext) {
-				var ctx = canvas.getContext('2d');
-				ctx.beginPath(); // 开始路径绘制
-				//drawPoint(ctx,beginPoint);
-				ctx.moveTo(beginPoint.x-15,beginPoint.y-15);
-				ctx.lineTo(endPoint.x-15,endPoint.y-15);
-				ctx.lineWidth = 1; // 设置线宽
-				ctx.strokeStyle = "#000000"; // 设置线的颜色
-				ctx.stroke(); // 进行线的着色，这时整条线才变得可见
-				}
-			});
-			
-			
+			drawLine("canvas1");
+			drawLine("canvas2");
+			drawLine("canvas3");
 		});
-			
-		function cilcktab1() {
-			$('#tab1').addClass("active");
-			$('#tab2').removeClass();
-			$("#tab3").removeClass();
-			$('#drowBoard1').css("display", "block");
-			$('#drowBoard2').css("display", "none");
-			$('#drowBoard3').css("display", "none");
-		}
-
-		function cilcktab2() {
-			$('#tab1').removeClass();
-			$('#tab2').addClass("active");
-			$("#tab3").removeClass();
-			$('#drowBoard1').css("display", "none");
-			$('#drowBoard2').css("display", "block");
-			$('#drowBoard3').css("display", "none");
-		}
-
-		function cilcktab3() {
-			$('#tab1').removeClass();
-			$('#tab2').removeClass();
-			$("#tab3").addClass("active")
-			$('#drowBoard1').css("display", "none");
-			$('#drowBoard2').css("display", "none");
-			$('#drowBoard3').css("display", "block");
-		}
-
-		function getPos(e) {
-			//var pointer = getCoord(e);
-
-		}
-		
-		/**
-		 * 显示坐标
-		 */
-		function showCoord(panel,coordinates) {
-			var coords1 = document.getElementById(panel);
-			coords1.onmousemove = function(e) {
-				var pointer = getCoord(e);
-				var coord = document.getElementById(coordinates);
-				coord.innerHTML = "绝对坐标：X,Y=(" + pointer.x + ", " + pointer.y + ")";
-/*				var canvas1 = document.getElementById('canvas1');
-			if (canvas1.getContext) {
-				var ctx = canvas1.getContext('2d');
-				ctx.beginPath(); // 开始路径绘制
-				pointer.x=pointer.x-309-15;
-				pointer.y=pointer.y-121-15;
-				drawPoint(ctx,pointer);
-				ctx.lineWidth = 1; // 设置线宽
-				ctx.strokeStyle = "#000000"; // 设置线的颜色
-				ctx.stroke(); // 进行线的着色，这时整条线才变得可见
-			}*/
-			}
-		}
-		/*
-		 * 获取pointer
-		 */
-		function getCoord(e) {
-			e = e || window.event;
-			var x = e.pageX || (e.clientX +
-				(document.documentElement.scrollLeft || document.body.scrollLeft));
-			var y = e.pageY || (e.clientY +
-				(document.documentElement.scrollTop || document.body.scrollTop));
-			return {
-				'x': x,
-				'y': y
-			};
-		}
-		
-		/**
-		 * 描点
-		 * 参数：坐标，context
-		 */
-		function drawPoint(ctx, point) {
-			ctx.moveTo(point.x, point.y);
-			ctx.lineTo(point.x + 1, point.y + 1);
-		}
 	</script>
 	<body>
 		<div class="container">
@@ -151,13 +43,16 @@
 					<div id="drowBoard1">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">数值微分法</h3>
+								<h3 class="panel-title">Digital Differential Analyza</h3>
 							</div>
-								<canvas id="canvas1" class="panel-body"  width="718" height="400" onclick="getPos(event)">
+								<canvas id="canvas1" class="panel-body" width="718" height="400">
 									您的浏览器不支持canvas！
 								</canvas>
 							<div class="panel-footer">
-								<h3 class="panel-title" style="height: 15px;"><span id="coordinates1"></span><span id="absoluteCoord1"></span></h3>
+									<div class="panel-title" style="height: 25px;">
+										<span id="absoluteCoord1"></span><span id="relativeCoord1"></span>
+										<input type="button" class="btn btn-sm btn-danger" id="btn_clean" value="清除"/>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -166,11 +61,11 @@
 							<div class="panel-heading">
 								<h3 class="panel-title">中点画线法</h3>
 							</div>
-								<canvas id="canvas2" class="panel-body"  width="718" height="400" onclick="getPos(event)">
+								<canvas id="canvas2" class="panel-body"  width="718" height="400">
 									您的浏览器不支持canvas！
 								</canvas>
 							<div class="panel-footer">
-								<h3 id="coordinates2" class="panel-title" style="height: 15px;"></h3>
+								<h3 class="panel-title" style="height: 15px;"><span id="absoluteCoord2"></span><span id="relativeCoord3"></span></h3>
 							</div>
 						</div>
 					</div>
@@ -179,11 +74,11 @@
 							<div class="panel-heading">
 								<h3 class="panel-title">Bresenham画线算法</h3>
 							</div>
-								<canvas id="canvas3" class="panel-body"  width="718" height="400" onclick="getPos(event)">
+								<canvas id="canvas3" class="panel-body"  width="718" height="400">
 									您的浏览器不支持canvas！
 								</canvas>
 							<div class="panel-footer">
-								<h3 id="coordinates3" class="panel-title" style="height: 15px;"></h3>
+								<h3 class="panel-title" style="height: 15px;"><span id="absoluteCoord3"></span><span id="relativeCoord3"></span></h3>
 							</div>
 						</div>
 					</div>
