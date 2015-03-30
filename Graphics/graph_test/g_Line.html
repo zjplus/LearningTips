@@ -23,6 +23,19 @@
 			drawLine("canvas1");
 			drawLine("canvas2");
 			drawLine("canvas3");
+			
+			//清除画布一
+			$('#btn_clean_DDAL').click(function(){
+				clearIt("canvas1");
+			});
+			//清除画布二
+			$('#btn_clean_MDP').click(function(){
+				clearIt("canvas2")
+			});
+			//清除画布三
+			$('#btn_clean_Bresenham').click(function(){
+				clearIt("canvas3")
+			});
 		});
 	</script>
 	<body>
@@ -42,16 +55,20 @@
 					<br />
 					<div id="drowBoard1">
 						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Digital Differential Analyza</h3>
+							<div class="panel-heading" >
+								<label class="panel-title">Digital Differential Analyza</label>
 							</div>
 								<canvas id="canvas1" class="panel-body" width="718" height="400">
 									您的浏览器不支持canvas！
 								</canvas>
 							<div class="panel-footer">
 									<div class="panel-title" style="height: 25px;">
-										<span id="absoluteCoord1"></span><span id="relativeCoord1"></span>
-										<input type="button" class="btn btn-sm btn-danger" id="btn_clean" value="清除"/>
+										<div style="float: left;">
+											<span id="absoluteCoord1"></span><span id="relativeCoord1"></span>
+										</div>
+										<div style="float: right;">
+											<input type="button" class="btn btn-sm btn-danger" id="btn_clean_DDAL" value="清除"/>
+										</div>
 									</div>
 							</div>
 						</div>
@@ -59,26 +76,40 @@
 					<div id="drowBoard2">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">中点画线法</h3>
+								<label class="panel-title">中点画线法</label>
 							</div>
-								<canvas id="canvas2" class="panel-body"  width="718" height="400">
-									您的浏览器不支持canvas！
-								</canvas>
+							<canvas id="canvas2" class="panel-body"  width="718" height="400">
+								您的浏览器不支持canvas！
+							</canvas>
 							<div class="panel-footer">
-								<h3 class="panel-title" style="height: 15px;"><span id="absoluteCoord2"></span><span id="relativeCoord3"></span></h3>
+								<div class="panel-title" style="height: 25px;">
+									<div style="float: left;">
+										<span id="absoluteCoord2"></span><span id="relativeCoord2"></span>
+									</div>
+									<div style="float: right;">
+										<input type="button" class="btn btn-sm btn-danger" id="btn_clean_MDP" value="清除" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div id="drowBoard3">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">Bresenham画线算法</h3>
+								<label class="panel-title">Bresenham画线算法</label>
 							</div>
-								<canvas id="canvas3" class="panel-body"  width="718" height="400">
-									您的浏览器不支持canvas！
-								</canvas>
+							<canvas id="canvas3" class="panel-body"  width="718" height="400">
+								您的浏览器不支持canvas！
+							</canvas>
 							<div class="panel-footer">
-								<h3 class="panel-title" style="height: 15px;"><span id="absoluteCoord3"></span><span id="relativeCoord3"></span></h3>
+								<div class="panel-title" style="height: 25px;">
+									<div style="float: left;">
+										<span id="absoluteCoord3"></span><span id="relativeCoord3"></span>
+									</div>
+									<div style="float: right;">
+										<input type="button" class="btn btn-sm btn-danger" id="btn_clean_Bresenham" value="清除" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
