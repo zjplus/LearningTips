@@ -72,6 +72,8 @@ function drawLine(canvasId) {
 	var canvas = document.getElementById(canvasId);
 	//起始点坐标
 	var beginPoint = new Object();
+		//结束点坐标
+	var endPoint = new Object();
 	//鼠标监听事件mousedown
 	canvas.addEventListener("mousedown", function(event) {
 		beginPoint.x = event.layerX - 15;
@@ -79,10 +81,32 @@ function drawLine(canvasId) {
 	});
 
 	//鼠标监听事件mousemove
-	canvas.addEventListener("mousemove", function(event) {});
+	canvas.addEventListener("mousemove", function(event) {
+//		clearIt("canvas1");
+//		endPoint.x = event.layerX - 15;
+//		endPoint.y = event.layerY - 15;
+//		if (canvas.getContext) {
+//			var ctx = canvas.getContext('2d');
+//			ctx.beginPath(); // 开始路径绘制	
+//			ctx.translate(0.5, 0.5);
+//			if (canvasId == "canvas1") {
+//				//数值微分算法
+//				DDALine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
+//			} else if (canvasId == "canvas2") {
+//				//中点画线法
+//				MDPLine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
+//			} else if (canvasId == "canvas3") {
+//				//Bresenham画线算法
+//				BresenhamLine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
+//			}
+//
+//			ctx.lineWidth = 1; // 设置线宽
+//			ctx.strokeStyle = "#000000"; // 设置线的颜色
+//			ctx.stroke(); // 进行线的着色，这时整条线才变得可见
+//		}
+	});
 
-	//结束点坐标
-	var endPoint = new Object();
+
 	////鼠标监听事件mouseup
 	canvas.addEventListener("mouseup", function(event) {
 		endPoint.x = event.layerX - 15;
@@ -196,7 +220,6 @@ function MDPLine(x0, y0, x1, y1, ctx) {
 	var point = new Object();
 	point.x = x;
 	point.y = y;
-	console.log("X:" + point.x + "Y:" + point.y);
 	drawPoint(ctx, point);
 	if (k > 0 && k < 1) {
 		d = (dy * 2) - dx;
@@ -211,7 +234,6 @@ function MDPLine(x0, y0, x1, y1, ctx) {
 			}
 			point.x = x;
 			point.y = y;
-			console.log("X:" + point.x + "Y:" + point.y);
 			drawPoint(ctx, point);
 		} /*while*/
 	} else if (k > 1) {
@@ -227,7 +249,6 @@ function MDPLine(x0, y0, x1, y1, ctx) {
 			}
 			point.x = x;
 			point.y = y;
-			console.log("X:" + point.x + "Y:" + point.y);
 			drawPoint(ctx, point);
 		} /*while*/
 	} else if (k > -1 && k < 0) {
@@ -243,7 +264,6 @@ function MDPLine(x0, y0, x1, y1, ctx) {
 			}
 			point.x = x;
 			point.y = y;
-			console.log("X:" + point.x + "Y:" + point.y);
 			drawPoint(ctx, point);
 		} /*while*/
 	} else if (k < -1) {
@@ -259,7 +279,6 @@ function MDPLine(x0, y0, x1, y1, ctx) {
 			}
 			point.x = x;
 			point.y = y;
-			console.log("X:" + point.x + "Y:" + point.y);
 			drawPoint(ctx, point);
 		} /*while*/
 	}
