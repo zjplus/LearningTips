@@ -1,0 +1,124 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>实验二：填充方块</title>
+		<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.2/css/bootstrap.min.css" />
+		<script src="../bootstrap-3.3.2/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../bootstrap-3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="drawcubiod.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<script type="text/javascript">
+		$(function() {
+			$('#tab1').addClass("active");
+			$('#drowBoard1').css("display", "block");
+			$('#drowBoard2').css("display", "none");
+			$('#drowBoard3').css("display", "none");
+			//画板1显示坐标
+			showCoord("canvas1","absoluteCoord1");
+			//画板2显示坐标
+			showCoord("canvas2","absoluteCoord2");
+			//画板3显示坐标
+			showCoord("canvas3","absoluteCoord3");
+			
+			drawLine("canvas1");
+			drawLine("canvas2");
+			drawLine("canvas3");
+			
+			drawCuboid("canvas1");
+			
+			//清除画布一
+			$('#btn_clean_DDAL').click(function(){
+				clearIt("canvas1");
+			});
+			//清除画布二
+			$('#btn_clean_MDP').click(function(){
+				clearIt("canvas2")
+			});
+			//清除画布三
+			$('#btn_clean_Bresenham').click(function(){
+				clearIt("canvas3")
+			});
+		});
+	</script>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<!--<h1>实验一</h1>-->
+					<ul class="nav nav-tabs">
+						<li id="tab1"><a href="javascript:cilcktab1()">算法一</a>
+						</li>
+						<li id="tab2"><a href="javascript:cilcktab2()">算法二</a>
+						</li>
+						<li id="tab3"><a href="javascript:cilcktab3()">算法三</a>
+						</li>
+					</ul>
+					<br />
+					<br />
+					<div id="drowBoard1">
+						<div class="panel panel-default">
+							<div class="panel-heading" >
+								<label class="panel-title">算法一</label>
+							</div>
+								<canvas id="canvas1" class="panel-body" width="718" height="400">
+									您的浏览器不支持canvas！
+								</canvas>
+							<div class="panel-footer">
+									<div class="panel-title" style="height: 25px;">
+										<div style="float: left;">
+											<span id="absoluteCoord1"></span><span id="relativeCoord1"></span>
+										</div>
+										<div style="float: right;">
+											<input type="button" class="btn btn-sm btn-danger" id="btn_clean_DDAL" value="清除"/>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+					<div id="drowBoard2">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<label class="panel-title">算法二</label>
+							</div>
+							<canvas id="canvas2" class="panel-body"  width="718" height="400">
+								您的浏览器不支持canvas！
+							</canvas>
+							<div class="panel-footer">
+								<div class="panel-title" style="height: 25px;">
+									<div style="float: left;">
+										<span id="absoluteCoord2"></span><span id="relativeCoord2"></span>
+									</div>
+									<div style="float: right;">
+										<input type="button" class="btn btn-sm btn-danger" id="btn_clean_MDP" value="清除" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="drowBoard3">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<label class="panel-title">算法三</label>
+							</div>
+							<canvas id="canvas3" class="panel-body"  width="718" height="400">
+								您的浏览器不支持canvas！
+							</canvas>
+							<div class="panel-footer">
+								<div class="panel-title" style="height: 25px;">
+									<div style="float: left;">
+										<span id="absoluteCoord3"></span><span id="relativeCoord3"></span>
+									</div>
+									<div style="float: right;">
+										<input type="button" class="btn btn-sm btn-danger" id="btn_clean_Bresenham" value="清除" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+		</div>
+	</body>
+</html>
