@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script language="javascript" src="jquery.js"></script>
+	<script>
+		function DDAline(x0,y0,x1,y1,ctx){
+			var x,dx,dy,kx,ky,y;
+			dx=x1-x0;
+			dy=y1-y0;
+			kx=dy/dx;
+			ky=dx/dy;
+			
+			//dx>dy x为主变量；dx<dy,y为主变量
+			if(Math.abs(dx)>=Math.abs(dy)){
+				y=y0;
+				//
+				if(x0<=x1){
+					for(x=x0;x<=x1;x++){
+					ctx.strokeRect(x,parseInt(y) ,1,1);
+					y=y+kx;
+					}
+				}else{
+					for(x=x0;x>=x1;x--){
+					ctx.strokeRect(x,parseInt(y) ,1,1);
+					y=y-kx;
+					}
+				}
+			}else{
+				x=x0;
+				//
+				if(y0<=y1){
+					for(y=y0;y<=y1;y++){
+					ctx.strokeRect(parseInt(x),y ,1,1);
+					x=x+ky;
+					}
+				}else{
+					for(y=y0;y>=y1;y--){
+					ctx.strokeRect(parseInt(x),y ,1,1);
+					x=x-ky;
+					}
+				}
+			}
+			
+			
+		}
+		
+		function MidpointLine(x0,y0,x1,y1,ctx){
+			var a,b,delta1,delta2,d,x,y;
+			a=y0-y1;
+			b=x1-x0;
+			d=a+a+b;
+			delta1=a+a;
+			delta2=a+b+a+b;
+			x=x0;
+			y=y0;
+			ctx.rect(x,y,1,0);
+			while(x<x1){
+				if(d<0){
+					x++;
+					y++;
+					d+=delta2;
+				}else{
+					x++;
+					d+=delta1;
+				}
+				ctx.strokeRect(x,y,1,0);
+			}
+		}
+		
+		function Integer_Bresenham_line(x0,y0,x1,y1,ctx){
+			var x,y,dx,dy,e;
+			dx=Math.abs(x1-x0);
+			dy=Math.abs(y1-y0);
+			e=-dx;
+			x=x0;
+			y=y0;
+			for(var i=0;i<=dx;i++){
+				ctx.strokeRect(x,y,1,0);
+				if(x0<=x1){
+					x++;
+				}else{
+					x--;
+				}
+				e=e+2*dy;
+				if(e>=0){
+					y++;
+					e=e-2*dx;
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+
+<canvas id="myCanvas" width="500" height="350" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+<br/>
+x=<input type="text" id="xID" readonly="readonly"/><br/>
+y=<input type="text" id="yID" readonly="readonly"/>
+
+<script>
+
+var c=document.getElementById("myCanvas");
+var ctx=c.getContext("2d");
+
+var x0=0,y0=0;
+
+$(document).click(function(){
+	var x1=event.clientX;
+	var y1=event.clientY;
+
+    $("#xID").val(x1);
+    $("#yID").val(y1);
+	x0=x1;
+	y0=y1;
+			
+});
+
+$(document).mousemove(function(){
+	var x1=event.clientX;
+	var y1=event.clientY;
+
+    $("#xID").val(x1);
+    $("#yID").val(y1);
+	
+	if(x0!=0){
+		ctx.clearRect ( 0 , 0 , 500 , 350 );
+		//Integer_Bresenham_line(x0,y0,x1,y1,ctx);
+		MidpointLine(x0,y0,x1,y1,ctx);
+	}
+		
+});
+
+</script> 
+
+</body>
+</html>

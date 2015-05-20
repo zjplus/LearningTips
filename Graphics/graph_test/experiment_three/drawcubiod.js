@@ -64,55 +64,53 @@ function drawPoint(ctx, point) {
 
 
 /**
- * 画线函数
+ * 画线且涂色函数
  * @param {Object} canvasId
  */
 function drawLine(canvasId) {
 	//canvas部分
 	var canvas = document.getElementById(canvasId);
-	var hx = canvas.getBoundingClientRect().left; // 元素左边距离页面左边的距离
-	var hy = canvas.getBoundingClientRect().top; // 元素上边距离页面上边的距离
 	//起始点坐标
 	var beginPoint = new Object();
-	//结束点坐标
+		//结束点坐标
 	var endPoint = new Object();
 	//鼠标监听事件mousedown
 	canvas.addEventListener("mousedown", function(event) {
-		beginPoint.x = event.layerX - hx;
-		beginPoint.y = event.layerY - hy;
+		beginPoint.x = event.layerX - 15;
+		beginPoint.y = event.layerY - 15;
 	});
 
 	//鼠标监听事件mousemove
 	canvas.addEventListener("mousemove", function(event) {
-		//		clearIt("canvas1");
-		//		endPoint.x = event.layerX - 15;
-		//		endPoint.y = event.layerY - 15;
-		//		if (canvas.getContext) {
-		//			var ctx = canvas.getContext('2d');
-		//			ctx.beginPath(); // 开始路径绘制	
-		//			ctx.translate(0.5, 0.5);
-		//			if (canvasId == "canvas1") {
-		//				//数值微分算法
-		//				DDALine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
-		//			} else if (canvasId == "canvas2") {
-		//				//中点画线法
-		//				MDPLine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
-		//			} else if (canvasId == "canvas3") {
-		//				//Bresenham画线算法
-		//				BresenhamLine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
-		//			}
-		//
-		//			ctx.lineWidth = 1; // 设置线宽
-		//			ctx.strokeStyle = "#000000"; // 设置线的颜色
-		//			ctx.stroke(); // 进行线的着色，这时整条线才变得可见
-		//		}
+//		clearIt("canvas1");
+//		endPoint.x = event.layerX - 15;
+//		endPoint.y = event.layerY - 15;
+//		if (canvas.getContext) {
+//			var ctx = canvas.getContext('2d');
+//			ctx.beginPath(); // 开始路径绘制	
+//			ctx.translate(0.5, 0.5);
+//			if (canvasId == "canvas1") {
+//				//数值微分算法
+//				DDALine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
+//			} else if (canvasId == "canvas2") {
+//				//中点画线法
+//				MDPLine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
+//			} else if (canvasId == "canvas3") {
+//				//Bresenham画线算法
+//				BresenhamLine(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y, ctx);
+//			}
+//
+//			ctx.lineWidth = 1; // 设置线宽
+//			ctx.strokeStyle = "#000000"; // 设置线的颜色
+//			ctx.stroke(); // 进行线的着色，这时整条线才变得可见
+//		}
 	});
 
 
 	////鼠标监听事件mouseup
 	canvas.addEventListener("mouseup", function(event) {
-		endPoint.x = event.layerX - hx;
-		endPoint.y = event.layerY - hy;
+		endPoint.x = event.layerX - 15;
+		endPoint.y = event.layerY - 15;
 		//$('#absoluteCoord1').innerHTML="相对坐标：(X,Y)=("+event.layerX+","+event.layerY+")";
 		if (canvas.getContext) {
 			var ctx = canvas.getContext('2d');
@@ -350,4 +348,40 @@ function clearIt(canvasId) {
 	ctx.clearRect(0, 0, 740, 430);
 	// source-over 是 context.globalCompositeOperation 的默认值
 	ctx.globalCompositeOperation = "source-over";
+	ctx.beginPath(); // 开始路径绘制	
+	ctx.translate(0.5, 0.5);
+	ctx.moveTo(150, 100);
+	ctx.lineTo(150, 300);
+	ctx.lineTo(550,300);
+	ctx.lineTo(550, 100);
+	ctx.lineTo(150, 100);
+	ctx.lineWidth = 1; // 设置线宽
+	ctx.strokeStyle = "#000000"; // 设置线的颜色
+	ctx.stroke(); // 进行线的着色，这时整条线才变得可见
 }
+
+//画矩形
+function drawCuboid(canvasId){
+	var canvas = document.getElementById(canvasId);
+	var ctx = canvas.getContext('2d');
+	ctx.beginPath(); // 开始路径绘制	
+	ctx.translate(0.5, 0.5);
+	ctx.moveTo(150, 100);
+	ctx.lineTo(150, 300);
+	ctx.lineTo(550,300);
+	ctx.lineTo(550, 100);
+	ctx.lineTo(150, 100);
+	ctx.lineWidth = 1; // 设置线宽
+	ctx.strokeStyle = "#000000"; // 设置线的颜色
+	ctx.stroke(); // 进行线的着色，这时整条线才变得可见
+}
+
+
+//Get Mouse Position 
+ function getMousePos(canvas, evt) { 
+   var rect = canvas.getBoundingClientRect(); 
+   return { 
+     x: evt.clientX - rect.left * (canvas.width / rect.width),
+     y: evt.clientY - rect.top * (canvas.height / rect.height)
+   }
+ }

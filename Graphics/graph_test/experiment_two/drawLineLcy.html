@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>刘驰宇画线</title>
+		<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.2/css/bootstrap.min.css" />
+		<script src="../bootstrap-3.3.2/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../bootstrap-3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="line.js"></script>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<canvas id="myCanvas" width="700" height="400" style="border:1px solid #d3d3d3;margin-left:50px">
+					Your browser does not support the HTML5 canvas tag.
+				</canvas>
+			</div>
+			<div class="row">
+				<h2>
+
+						<div>起点:（<label id="sx"></label>，<label id="sy"></label>）</div>
+
+						<br>
+
+						<div>终点:（<label id="ex"></label>，<label id="ey"></label>）</div>
+
+						</h2>
+				<button type="button" class="btn btn-primary margin-bottom-20" id="clear">清空</button>
+			</div>
+		</div>
+		<script>
+			var pointArray = new Array();
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+			var color;
+			var hx = c.getBoundingClientRect().left; // 元素左边距离页面左边的距离
+			var hy = c.getBoundingClientRect().top; // 元素上边距离页面上边的距离
+			var x0 = 0,
+				y0 = 0,
+				x1 = 0,
+				y1 = 0;
+			var status = 0;
+			$(document).click(function() {
+				var xt = event.clientX;
+				var yt = event.clientY;
+				if (xt >= c.getBoundingClientRect().left && xt <= c.getBoundingClientRect().right && yt >= c.getBoundingClientRect().top && yt <= c.getBoundingClientRect().bottom) {
+					if (status == 0) {
+						x0 = xt - hx;
+						y0 = yt - hy;
+						$("#sx").text(x0);
+						$("#sy").text(y0);
+						status = 1;
+					} else {
+						status = 0;
+						var t = pointArray.length;
+						pointArray[t] = [x0, y0, x1, y1, 1];
+					}
+				}
+			});
+			 //鼠标移动获取坐标
+			$(document).mousemove(function() {
+				x1 = event.clientX - hx;
+				y1 = event.clientY - hy;
+				if (status == 1) {
+					$("#ex").text(x1);
+					$("#ey").text(y1);
+				}
+				if (x0 != 0) {
+					ctx.clearRect(0, 0, 900, 600);
+					ctx.strokeStyle = color;
+					var flg = 1;
+					if (flg == 1) {
+						if (status == 1) {
+							DDAline(x0, y0, x1, y1, ctx);
+						}
+						$("#sf").text("1");
+					} else if (flg == 2) {
+						if (status == 1) {
+							MidpointLine(x0, y0, x1, y1, ctx);
+						}
+						$("#sf").text("2");
+					} else if (flg == 3) {
+						if (status == 1) {
+							Integer_Bresenham_line(x0, y0, x1, y1, ctx);
+						}
+						$("#sf").text("3");
+					}
+					for (var i = 0; i < pointArray.length; i++) {
+						if (pointArray[i][4] == 1) {
+							DDAline(pointArray[i][0], pointArray[i][1], pointArray[i][2], pointArray[i][3], ctx);
+						} else if (pointArray[i][4] == 2) {
+							MidpointLine(pointArray[i][0], pointArray[i][1], pointArray[i][2], pointArray[i][3], ctx);
+						} else if (pointArray[i][4] == 3) {
+							Integer_Bresenham_line(pointArray[i][0], pointArray[i][1], pointArray[i][2], pointArray[i][3], ctx);
+						}
+					}
+				}
+			});
+			$("#clear").click(function() {
+				pointArray = new Array();
+			});
+		</script>
+	</body>
+
+</html>

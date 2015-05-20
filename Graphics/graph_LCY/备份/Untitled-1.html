@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+
+<script language="javascript" src="jquery.js"></script>
+		<script language="javascript">
+			function getPos(e){
+				var x=getX(e);
+				var y=getY(e);
+				alert("x:"+x+";Y:"+y);
+			}
+			
+			function getX(e){
+				e=e||window.event;
+				return e.pageX||e.clientX+document.body.scrollLeft;
+			}
+			
+			function getY(e){
+				e=e||window.event;
+				return e.pageY||e.clientY+document.body.scrollTop;
+			}
+			
+			
+			function aaa(){
+				alert("aaa");
+			}
+			
+		</script>
+
+</head>
+
+<body>
+	<div id="div1" style="width:500px;height:500px;" onclick="getPos(event)">
+	</div>
+
+    x=<input type="text" id="xID" readonly="readonly"/><br/>
+    y=<input type="text" id="yID" readonly="readonly"/>
+    
+    <script type="text/javascript">
+        $(document).mousemove(function(){
+            $("#xID").val(event.clientX);
+            $("#yID").val(event.clientY);
+        });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>填充</title>
+		<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.2/css/bootstrap.min.css" />
+		<script src="../bootstrap-3.3.2/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../bootstrap-3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="line.js"></script>
+		<script src="filling.js"></script>
+		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.colorpicker.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col col-lg-1"></div>
+				<div class="col col-lg-10" style="display: inline-flex;">
+					<div id="tab" role="tabpanel">
+						<!-- Nav tabs -->
+						<input type="radio" name="ways" value="1" />边填充
+						<input type="radio" name="ways" value="2" />种子
+						<input type="radio" name="ways" value="3" />多边形域
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="filling1">
+								<canvas id="myCanvas1" width="700" height="400" style="border:1px solid #d3d3d3;">
+									Your browser does not support the HTML5 canvas tag.
+								</canvas>
+								<div>起点:（
+									<label id="sx"></label>，
+									<label id="sy"></label>）</div>
+								<div>终点:（
+									<label id="ex"></label>，
+									<label id="ey"></label>）</div>
+								<button type="button" class="btn btn-primary margin-bottom-20" id="clear1">清空</button>
+							</div>
+						</div>
+					</div>
+					<div style="padding-top: 40px;padding-left: 20px;">
+						<div> 请输入颜色值：
+							<input type="text" id="color" style="width:80px" />
+						</div>
+					</div>
+				</div>
+				<div class="col col-lg-1">
+
+				</div>
+			</div>
+		</div>
+		<script>
+			$(function() {
+				//初始化画板1
+				filling("myCanvas1");
+				$("#color").colorpicker({
+					fillcolor: true
+				});
+			});
+		</script>
+	</body>
+
+</html>
